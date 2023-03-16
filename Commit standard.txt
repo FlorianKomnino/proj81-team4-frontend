@@ -1,5 +1,6 @@
 GENERICO
 
+
 suffissi da aggiungere eventualmente a fine commit:
 * prototype(funzionante, da dettagliare);
 * completed(apparentemente completo e senza errori);
