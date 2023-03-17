@@ -69,10 +69,11 @@ export default {
                 <label for="contact_email" class="form-label">
                     Email
                 </label>
-
-                <small v-for="error in errors.email" class="is-invalid d-block text-danger ">
-                    {{ error }}
-                </small>
+                <div v-if="errors">
+                    <small v-for="error in errors.email" class="is-invalid d-block text-danger ">
+                        {{ error }}
+                    </small>
+                </div>
 
                 <input type="text" class="form-control" id="contact_email" placeholder="Insert your email" v-model="email">
             </div>
@@ -81,9 +82,11 @@ export default {
                 <label for="contact_password" class="form-label">
                     Password
                 </label>
-                <small v-for="error in errors.password" class="is-invalid d-block text-danger ">
-                    {{ error }}
-                </small>
+                <div v-if="errors">
+                    <small v-for="error in errors.password" class="is-invalid d-block text-danger ">
+                        {{ error }}
+                    </small>
+                </div>
                 <input type="password" class="form-control" id="contact_password" placeholder="Insert your password" v-model="password">
             </div>
 
@@ -91,9 +94,11 @@ export default {
                 <label for="contact_name" class="form-label">
                     Name
                 </label>
-                <small v-for="error in errors.name" class="is-invalid d-block text-danger ">
-                    {{ error }}
-                </small>
+                <div v-if="errors">
+                    <small v-for="error in errors.name" class="is-invalid d-block text-danger ">
+                        {{ error }}
+                    </small>
+                </div>
                 <input type="text" class="form-control" id="contact_name" placeholder="Insert your name" v-model="name">
             </div>
 
@@ -102,9 +107,11 @@ export default {
                 <label for="contact_surname" class="form-label">
                     Surname
                 </label>
-                <small v-for="error in errors.surname" class="is-invalid d-block text-danger ">
-                    {{ error }}
-                </small>
+                <div v-if="errors">
+                    <small v-for="error in errors.surname" class="is-invalid d-block text-danger ">
+                        {{ error }}
+                    </small>
+                </div>
                 <input type="text" class="form-control" id="contact_surname" placeholder="Insert your surname" v-model="surname">
             </div>
 
@@ -112,9 +119,11 @@ export default {
                 <label for="contact_birth_date" class="form-label">
                     Birth Date
                 </label>
-                <small v-for="error in errors.birth_date" class="is-invalid d-block text-danger ">
-                    {{ error }}
-                </small>
+                <div v-if="errors">
+                    <small v-for="error in errors.birth_date" class="is-invalid d-block text-danger ">
+                        {{ error }}
+                    </small>
+                </div>
                 <input type="date" class="form-control" id="contact_birth_date" placeholder="Insert your birth date" v-model="birth_date">
             </div>
 
