@@ -58,13 +58,6 @@ export default {
     <section class="contact-form">
         <div class="form-input p-3">
 
-
-            <div class="alert alert-success mb-3" v-if="success">
-                <p>
-                    Your message has been sent succesfully!
-                </p>
-            </div>
-
             <div class="mb-4">
                 <label for="contact_email" class="form-label">
                     Email
@@ -130,9 +123,9 @@ export default {
 
 
             <div class="mb-4">
-                <button class="btn btn-primary" @click.prevent="sendContactForm">
+                <router-link :to="{name:'UserDashboard'}" class="btn btn-primary"  @click.prevent="sendContactForm">
                     Send contact form
-                </button>
+                </router-link>
             </div>
         </div>
     </section>
