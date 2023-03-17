@@ -1,12 +1,20 @@
 <template lang="">
-    <div>
-        <h1>
-            Hello Universe!
-        </h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>
+                    Welcome to BoolBnB
+                </h1>
+            </div>
+        </div>
     </div>
 </template>
 <script>
+
 export default {
+    name: 'HomePage',
+    components: {
+    }
 
 }
 </script>
