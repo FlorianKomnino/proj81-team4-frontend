@@ -39,8 +39,8 @@ export default {
             form: {
                 email: '',
                 password: ''
-
-            }
+            },
+            userDetails:[]
         }
     },
     methods: {
@@ -59,6 +59,7 @@ export default {
                     }
                     else {
                         console.log('ha fatto cumpa\'');
+                        this.userDetails = resp.data.data
                     }
 
                 })
