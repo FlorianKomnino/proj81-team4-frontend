@@ -1,6 +1,15 @@
 <script>
+import { store } from '../store.js'
 export default {
     name: 'DashboardComponent',
+    data() {
+        return {
+            store
+        }
+    },
+    created() {
+        console.log(this.store.userData)
+    },
 }
 </script>
 
