@@ -19,7 +19,9 @@
                     <input type="password" name="password" class="form-control" id="exampleInputPass1"
                         aria-describedby="passHelp" placeholder="Enter Password" v-model="form.password">
                 </div>
-                <button type="submit" class="btn btn-primary mt-5">Submit</button>
+                
+                <!-- <router-link :to="{name: 'UserDashboard'}" type="submit" class="btn btn-primary mt-5">Submit</router-link> -->
+                <button type="submit">daje</button>
             </form>
         </div>
     </div>
@@ -29,18 +31,18 @@
 
 <script>
 import axios from 'axios'
+import { store } from '../store.js'
 export default {
 
     components: {
     },
     data() {
         return {
-
+            store,
             form: {
                 email: '',
                 password: ''
             },
-            userDetails:[]
         }
     },
     methods: {
@@ -50,25 +52,34 @@ export default {
             axios.post('http://127.0.0.1:8000/api/login', this.form)
                 .then((resp) => {
                     console.log(resp["data"]["status"]);
-                    //this.loadlist();
-                    //reset form
                     this.form.email = '';
                     this.form.password = '';
                     if (resp["data"]["status"] == "error") {
                         console.log(resp);
                     }
                     else {
-                        console.log('ha fatto cumpa\'');
-                        this.userDetails = resp.data.data
+                        this.store.userData = resp.data.data
+                        this.goToDashboard()
                     }
 
                 })
                 .catch((e) => {
                     console.log(e);
                 })
+        },
+        goToDashboard() {
+
+            this.$router.push('/userDashboard')
+        },
+        fromRegistration(){
+            this.login_user()
+        }
+    },
+    created:{
+        if (registrationForm) {
+            this.fromRegistration()
         }
     }
-
 }
 </script>
 
