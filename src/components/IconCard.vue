@@ -23,6 +23,7 @@ export default {
     .icon {
         font-size: 2rem;
         margin: auto;
+        color: grey;
     }
 
     span {
