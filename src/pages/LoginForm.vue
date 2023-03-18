@@ -18,10 +18,8 @@
                     </label>
                     <input type="password" name="password" class="form-control" id="exampleInputPass1"
                         aria-describedby="passHelp" placeholder="Enter Password" v-model="form.password">
-                </div>
-                
-                <!-- <router-link :to="{name: 'UserDashboard'}" type="submit" class="btn btn-primary mt-5">Submit</router-link> -->
-                <button type="submit">daje</button>
+                </div>                
+                <button type="submit" class="btn btn-primary mt-5">log in</button>
             </form>
         </div>
     </div>
@@ -68,17 +66,8 @@ export default {
                 })
         },
         goToDashboard() {
-
             this.$router.push('/userDashboard')
         },
-        fromRegistration(){
-            this.login_user()
-        }
-    },
-    created:{
-        if (registrationForm) {
-            this.fromRegistration()
-        }
     }
 }
 </script>
