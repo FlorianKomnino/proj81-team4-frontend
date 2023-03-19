@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import { store } from '../store.js';
 import DashboardComponent from '../components/DashboardComponent.vue'
 
 export default {
@@ -17,13 +18,16 @@ export default {
             errors: {},
             success: false,
             apiAddress: 'http://127.0.0.1:8000/api/',
+            user:{},
+            store
         }
     },
     methods: {
         getUserInfo(){
-            axios.get(`${this.apiAddress}user/1`, formData).then((response) => {
+            axios.get(`${this.apiAddress}user/${this.store.userData.user_id}`).then((response) => {
+                this.user = response.data.results;
+                console.log(this.user)
                 this.success = response.data.success;
-                console.log(this.success);
                 // console.warn(this.success);
                 if (this.success) {
                     this.name = "";
@@ -41,11 +45,14 @@ export default {
             })
         }
     },
+    created() {
+        this.getUserInfo()
+    },
 }
 </script>
 
 <template>
-    <DashboardComponent/>
+    <DashboardComponent :user="user"/>
 </template>
 
 <style lang="scss"></style>

@@ -45,7 +45,6 @@ export default {
                             console.log(resp["data"]["status"]);
                             //this.loadlist();
                             //reset form
-                            console.log('ciao')
                             this.name = "";
                             this.surname = "";
                             this.email = "";
