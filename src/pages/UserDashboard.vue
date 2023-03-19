@@ -19,12 +19,13 @@ export default {
             success: false,
             apiAddress: 'http://127.0.0.1:8000/api/',
             user:{},
-            store
+            store,
+            userId: 0
         }
     },
     methods: {
         getUserInfo(){
-            axios.get(`${this.apiAddress}user/${this.store.userData.user_id}`).then((response) => {
+            axios.get(`${this.apiAddress}user/${this.userId}`).then((response) => {
                 this.user = response.data.results;
                 console.log(this.user)
                 this.success = response.data.success;
@@ -43,9 +44,20 @@ export default {
                 //  se è andata bene fai a
                 // altrimenti fai b
             })
+        },
+        useCookies(){
+            if(this.store.userData.user_id){
+                $cookies.set('user_id', this.store.userData.user_id)
+                this.userId = this.store.userData.user_id
+                console.log(this.userId)
+            } else {
+                this.userId = $cookies.get('user_id')
+                console.log(this.userId)
+            }
         }
     },
     created() {
+        this.useCookies()
         this.getUserInfo()
     },
 }
