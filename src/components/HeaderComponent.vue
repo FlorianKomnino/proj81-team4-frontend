@@ -12,6 +12,7 @@ export default {
             </div>
             <div class="col-3 justify-content-end d-flex">
                 <router-link :to="{name:'RegistrationForm'}" class="btn btn-primary">Sign up</router-link>
+                <router-link :to="{name:'LoginForm'}" class="btn btn-primary ms-2">Login</router-link>
             </div>
         </div>
     </div>
