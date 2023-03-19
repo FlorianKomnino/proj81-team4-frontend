@@ -29,7 +29,7 @@ export default {
             </div>
             <div class="col-8 px-5 py-4">
                 <h2>Ciao {{user.name}}!</h2>
-                <p class="text-secondary">Su Bool BnB dal {{user.created_at.substr(0,4)}}</p>
+                <p class="text-secondary">Su Bool BnB dal {{ user.subscribed_from }}</p>
                 <p class="text-decoration-underline my-3">modifica il profilo</p>
                 <a href="" class="btn btn-secondary">+ aggiungi appartamento</a><br>
                 <a href="" class="btn btn-secondary my-3">Messaggi</a><br>

@@ -51,6 +51,7 @@ export default {
                             this.password = "";
                             this.birth_date = "";
                             this.store.userData = resp.data.data
+                            $cookies.set('user_data', resp.data.data)
                             this.goToDashboard()
                         })
                         .catch((e) => {
