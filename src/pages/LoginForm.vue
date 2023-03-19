@@ -4,6 +4,7 @@
             Login to your BoolBnB profile
         </h3>
         <div class="col-md-12">
+            <p v-if="error" class="text-danger">please make sure to insert correct data. Not subscribed? <span @click="goToRegistrationForm" class="text-primary">click here</span> to register</p>
             <form v-on:submit.prevent="login_user">
                 <div class="mb-3">
                     <label for="exampleFormControlInput2" class="form-label">
@@ -37,6 +38,7 @@ export default {
     data() {
         return {
             store,
+            error: false,
             form: {
                 email: '',
                 password: ''
@@ -54,6 +56,7 @@ export default {
                     this.form.email = '';
                     this.form.password = '';
                     if (resp["data"]["status"] == "error") {
+                        this.error=true
                         console.log(resp);
                     }
                     else {
@@ -69,10 +72,18 @@ export default {
         goToDashboard() {
             this.$router.push('/userDashboard')
         },
+        goToRegistrationForm(){
+            this.$router.push('/registration')
+        }
     }
 }
 </script>
 
-<style lang="">
-
+<style lang="scss" scoped>
+span{
+    &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
 </style>
