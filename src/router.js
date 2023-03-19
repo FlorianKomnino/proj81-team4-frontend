@@ -19,7 +19,7 @@ const router = createRouter({
             component: RegistrationForm
         },
         {
-            path: '/userDashboard/:id',
+            path: '/userDashboard',
             name: 'UserDashboard',
             component: UserDashboard
         },
