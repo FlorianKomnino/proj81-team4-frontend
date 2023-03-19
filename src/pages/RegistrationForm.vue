@@ -25,12 +25,11 @@ export default {
             this.success = false;
             // invio il form
             this.loading = true;
-            console.warn(this.name, this.email);
             const formData = {
-                name: this.name,
-                surname: this.surname,
+                name: (this.name == '') ? 'nuovo utente' : this.name,
+                surname: (this.surname == '') ? '-' : this.surname,
                 password: this.password,
-                birth_date: this.birth_date,
+                birth_date: (this.birth_date == '') ? '1000-01-01' : this.birth_date,
                 email: this.email,
             };
             const loginData={
@@ -143,9 +142,6 @@ export default {
 
             <div class="mb-4">
                 <button class="btn btn-primary" @click.prevent="sendContactForm"> register </button>
-                <!-- <router-link :to="{name:'UserDashboard'}" class="btn btn-primary"  @click.prevent="sendContactForm">
-                    Send contact form
-                </router-link> -->
             </div>
         </div>
     </section>
