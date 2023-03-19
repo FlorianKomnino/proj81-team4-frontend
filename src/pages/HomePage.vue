@@ -1,3 +1,20 @@
+<script>
+import MapTomtom from '../components/Tomtom/MapTomtom.vue';
+
+export default {
+    name: 'HomePage',
+    components: {
+        MapTomtom,
+    },
+    data() {
+        return {
+        
+        }
+    },
+}
+
+</script>
+
 <template lang="">
     <div class="container">
         <div class="row">
@@ -8,14 +25,14 @@
             </div>
         </div>
     </div>
+    <MapTomtom />
 </template>
-<script>
 
-export default {
-    name: 'HomePage',
-    components: {
-    }
+<style lang="scss" scoped>
 
-}
-</script>
-<style lang="scss"></style>
+    #map { 
+        height: 50vh; 
+        width: 50vw; 
+    } 
+
+</style>
