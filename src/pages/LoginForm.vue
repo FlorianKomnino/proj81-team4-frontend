@@ -50,7 +50,7 @@ export default {
             axios.post('http://127.0.0.1:8000/api/login', this.form)
                 .then((resp) => {
                     console.log(resp["data"]["status"]);
-                    $cookies.set('user_data', resp.data.data)
+                    $cookies.set('user_data', resp.data.data, '30s')
                     this.form.email = '';
                     this.form.password = '';
                     if (resp["data"]["status"] == "error") {

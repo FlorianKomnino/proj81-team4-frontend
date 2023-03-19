@@ -50,7 +50,7 @@ export default {
                             this.password = "";
                             this.birth_date = "";
                             this.store.userData = resp.data.data
-                            $cookies.set('user_data', resp.data.data)
+                            $cookies.set('user_data', resp.data.data, '30s')
                             this.goToDashboard()
                         })
                         .catch((e) => {
