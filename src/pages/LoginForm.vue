@@ -4,7 +4,7 @@
             Login to your BoolBnB profile
         </h3>
         <div class="col-md-12">
-            <p v-if="error" class="text-danger">please make sure to insert correct data. Not subscribed? <span @click="goToRegistrationForm" class="text-primary">click here</span> to register</p>
+            <p v-if="error" class="text-danger">please make sure to insert correct data. Not registered? <span @click="goToRegistrationForm" class="text-primary">click here</span> to register</p>
             <form v-on:submit.prevent="login_user">
                 <div class="mb-3">
                     <label for="exampleFormControlInput2" class="form-label">
