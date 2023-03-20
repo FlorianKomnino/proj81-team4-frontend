@@ -1,5 +1,9 @@
 <script>
+/* import tomtom */
 import tt from '@tomtom-international/web-sdk-maps'
+/* import FuzzySearch */
+import FuzzySearch from 'fuzzy-search';
+
 import SearchBarTomtom from './SearchBarTomtom.vue';
 import axios from 'axios';
 
@@ -11,78 +15,83 @@ export default {
     data(){
         return{
             urlAddress: 'https://api.tomtom.com/search/2/search/',
-            positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json'
+            positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
+            apartmentsList: [
+                {
+                    position: {
+                        lat: 9.165437,
+                        lon: 45.464718,
+                    }
+                },
+                {
+                    position: {
+                    lat: 9.163100,
+                    lon: 45.478681,
+                    }
+                },
+                {
+                    position: {
+                    lat: 9.207381,
+                    lon: 45.483141,
+                    }
+                },
+            ]
         }
     },
     methods: {
-        /* pippo() {
-            const iconMarker = document.getElementById('marker');
-            const center = [9.190448, 45.464189];
-            const apartment1 = 'Corso Magenta, 2-22, 20121 Milano MI';
-            const apartment2 = 'Viale Belisario, 3, 20145 Milano MI';
-            const apartment3 = 'Viale Luigi Sturzo, 20154 Milano MI';
-            axios.get(this.positionUrlAddress, {
+        getHouses(locationQuery) {
+            axios.get(this.urlAddress + `${locationQuery}.json`, {
                 params: {
                     key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
-                    geometryList: [{
-                        "type": "CIRCLE",
-                        "position": "9.190448, 45.464189",
-                        "radius": 10000
-                    }
-                    ],
-                    poiList: [{
-                        "poi": {
-                            "name": ""
-                        },
-                        "address": {
-                            "freeformAddress": 'Foro Buonaparte, 20121 Milano MI'
-                        },
-                        "position": {
-                        "lat": 9.179457,
-                        "lon": 45.467617
-                        }
-                        },
-                        {
-                        "poi": {
-                            "name": ""
-                        },
-                        "address": {
-                            "freeformAddress": 'Via Leone XIII, 27, 20145 Milano MI'
-                        },
-                        "position": {
-                        "lat": 9.163493,
-                        "lon": 45.475231
-                        }
-                        },
-                        {
-                        "poi": {
-                            "name": ""
-                        },
-                        "address": {
-                            "freeformAddress": 'Via Lipari, 9, 20144 Milano MI'
-                        },
-                        "position": {
-                        "lat": 9.161626,
-                        "lon": 45.461156
-                        }
-                        }
-                ],
                 }
             })
             .then((response) => {
-                console.log(response);
-                
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .finally(function () {
+                let centerCoordinate = response.data.results[0].position;
+                let position = `${response.data.results[0].position.lon},${response.data.results[0].position.lat}`;
+                axios.get(this.positionUrlAddress, {
+                params: {
+                    key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
+                    geometryList: JSON.stringify([
+                        {
+                        type: "CIRCLE",
+                        position: position,
+                        radius: 20000
+                        }
+                    ]),
+                    poiList: JSON.stringify(this.apartmentsList)
+                }
+                })
+                .then((response) => {
+                    const map = tt.map({
+                    key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
+                    container: "map",
+                    center: centerCoordinate,
+                    zoom: 13
+                    })
+                    map.on('load', () => {
+                        const iconMarker = document.getElementById('marker');
+                        response.data.results.forEach(function (location) {
+                            let marker = new tt.Marker().setLngLat([location.position.lat, location.position.lon]).addTo(map) 
+                            const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
+                            marker.setPopup(popup).togglePopup() 
+                        })
+                        
+                    })
+                    map.addControl(new tt.FullscreenControl());
+                    map.addControl(new tt.NavigationControl());
+                    this.map = Object.freeze(map);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .finally(function () {
 
-            });
-        }, */
+                });
+            })
+            
+        },
         map(){
             const iconMarker = document.getElementById('marker');
-            let customPopup = '<div class"">Il tuo appartamento</div>';
             let center = [9.192771, 45.463273]
             const map = tt.map({
             key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
@@ -91,19 +100,14 @@ export default {
             zoom: 12
             })
             map.on('load', () => {
-                    let popupOffsets = {
-                    top: [0, 0],
-                    bottom: [0, -40],
-                    }
-                    let popup = new tt.Popup({ offset: popupOffsets }).setHTML(customPopup)
-                    new tt.Marker({element: iconMarker}).setLngLat(center).addTo(map).setPopup(popup).togglePopup()
+                    const iconMarker = document.getElementById('marker');
+                    let marker = new tt.Marker({element: iconMarker}).setLngLat(center);
+                    marker.addTo(map);
                 })
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
         },
         getCoordinate(locationQuery) {
-            const iconMarker = document.getElementById('marker');
-            let center = [9.192771, 45.463273]
             axios.get(this.urlAddress + `${locationQuery}.json`, {
                 params: {
                     key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
@@ -118,13 +122,15 @@ export default {
                 zoom: 15
                 })
                 map.on('load', () => {
+                    const iconMarker = document.getElementById('marker');
+                    let customPopup = document.createElement('div');
+                    customPopup.classList.add("custom-popup");
+                    customPopup.innerHTML = '<p style="font-size: 0.9rem" class="m-0 me-2">Posizione esatta fornita dopo la prenotazione.</p>'
                     let popupOffsets = {
                     top: [0, 0],
                     bottom: [0, -50],
                     }
-                    let popup = new tt.Popup({ offset: popupOffsets }).setHTML(
-                        "Il tuo appartamento"
-                    )
+                    let popup = new tt.Popup({ offset: popupOffsets, className: 'custom-popup'}).setDOMContent(customPopup);
                     new tt.Marker({element: iconMarker}).setLngLat(response.data.results[0].position).addTo(map).setPopup(popup).togglePopup()
                 })
                 map.addControl(new tt.FullscreenControl());
@@ -152,29 +158,35 @@ export default {
     },
     mounted(){
         this.map();
-        this.pippo();
     }
 }
 </script>
 
 <template lang="">
-
-    
-    
     <div class="container">
-        <SearchBarTomtom @location="getCoordinate"/>
+        <SearchBarTomtom @location="getHouses"/>
         <div id="map" class="map">
-            <div id="marker"><font-awesome-icon icon="fa-solid fa-house" class="icon"/></div>
+            <div id="marker" class="d-flex justify-content-center align-items-center"><font-awesome-icon icon="fa-solid fa-house" class="icon"/></div>
         </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
+@use "../../styles/general.scss" as *;
+
     #map{
         height: 500px;
+        .custom-popup{
+            border-radius: 20px;
+            font-size: 100rem;
+        }
         #marker{
+            background-color: $main-bg-color;
+            border-radius: 50%;
             .icon{
-                height: 25px;
+                color: white;
+                font-size: 1.3rem;
+                padding: 14px;
             }
         }
 

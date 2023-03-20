@@ -14,9 +14,4 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(fas, far, fab)
 
-/* import tomtom */
-import tt from '@tomtom-international/web-sdk-maps'
-
-import FuzzySearch from 'fuzzy-search';
-
-createApp(App).component('font-awesome-icon', FontAwesomeIcon, tt, FuzzySearch).use(router).mount('#app')
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(router).mount('#app')
