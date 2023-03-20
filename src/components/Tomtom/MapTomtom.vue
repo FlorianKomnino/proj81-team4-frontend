@@ -6,6 +6,7 @@ import FuzzySearch from 'fuzzy-search';
 
 import SearchBarTomtom from './SearchBarTomtom.vue';
 import axios from 'axios';
+import { Marker } from 'mapbox-gl';
 
 export default {
     name: 'MapTomtom',
@@ -35,6 +36,18 @@ export default {
                     lon: 45.483141,
                     }
                 },
+                {
+                    position: {
+                    lat: 9.677238,
+                    lon: 45.698168,
+                    }
+                },
+                {
+                    position: {
+                    lat: 9.661306,
+                    lon: 45.682499,
+                    }
+                }
             ]
         }
     },
@@ -55,7 +68,7 @@ export default {
                         {
                         type: "CIRCLE",
                         position: position,
-                        radius: 20000
+                        radius: 10000
                         }
                     ]),
                     poiList: JSON.stringify(this.apartmentsList)
@@ -69,11 +82,15 @@ export default {
                     zoom: 13
                     })
                     map.on('load', () => {
-                        const iconMarker = document.getElementById('marker');
+                        /* const MarkerEl = document.createElement("div");
+                        const iconMarker = document.createElement("div");
+                        iconMarker.innerHTML(iconMarker);
+                        MarkerEl.classList.add('marker');
+                        console.log(MarkerEl); */
                         response.data.results.forEach(function (location) {
                             let marker = new tt.Marker().setLngLat([location.position.lat, location.position.lon]).addTo(map) 
                             const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
-                            marker.setPopup(popup).togglePopup() 
+                            marker.setPopup(popup)
                         })
                         
                     })
@@ -180,7 +197,7 @@ export default {
             border-radius: 20px;
             font-size: 100rem;
         }
-        #marker{
+        .marker{
             background-color: $main-bg-color;
             border-radius: 50%;
             .icon{
