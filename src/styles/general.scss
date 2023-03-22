@@ -1,7 +1,7 @@
 @import "bootstrap/scss/bootstrap.scss";
 @import "@tomtom-international/web-sdk-maps";
 
-$main-bg-color: rgb(255,55,92);
+$main-bg-color: rgb(255, 55, 92);
 
 @mixin standard-button {
     background-color: $main-bg-color;
@@ -17,4 +17,5 @@ $main-bg-color: rgb(255,55,92);
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    list-style-type: none;
 }
