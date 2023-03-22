@@ -1,10 +1,12 @@
 <script>
 import MapTomtom from '../components/Tomtom/MapTomtom.vue';
+import ApartmentsIndex from '../components/apartments/ApartmentsIndex.vue';
 
 export default {
     name: 'HomePage',
     components: {
         MapTomtom,
+        ApartmentsIndex
     },
     data() {
         return {
@@ -25,7 +27,10 @@ export default {
             </div>
         </div>
     </div>
+
     <MapTomtom />
+    <ApartmentsIndex/>
+
 </template>
 
 <style lang="scss" scoped>
