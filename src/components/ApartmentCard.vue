@@ -17,9 +17,9 @@ export default {
 </script>
 
 <template>
-    <div class="card">
-        <img :src="imageBaseURL+'storage/'+image" class="card-img-top" alt="image">
-        <div class="card-body">
+    <div class="card h-100 border-0">
+        <img :src="imageBaseURL+'storage/'+image" class="card-img-top rounded rounded-4" alt="image">
+        <div class="card-body px-0">
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text">Indirizzo: {{address}}</p>
             <p class="card-text">Numero di stanze: {{rooms}}</p>
