@@ -18,7 +18,8 @@ export default {
 
 <template>
     <div class="card h-100 border-0">
-        <img :src="imageBaseURL+'storage/'+image" class="card-img-top rounded rounded-4" alt="image">
+        <img v-if="image.startsWith('http')" :src="image" class="card-img-top rounded rounded-4" alt="image">
+        <img v-else :src="imageBaseURL+'storage/'+image" class="card-img-top rounded rounded-4" alt="image">
         <div class="card-body px-0">
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text">Indirizzo: {{address}}</p>
