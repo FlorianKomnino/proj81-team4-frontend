@@ -89,9 +89,4 @@ export default {
     <MapTomtom />
 </template>
 
-<style lang="scss" scoped>
-#map {
-    height: 50vh;
-    width: 50vw;
-}
-</style>
+<style lang="scss" scoped></style>
