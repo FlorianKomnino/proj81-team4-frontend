@@ -15,6 +15,9 @@ export default {
     },
     data(){
         return{
+            apartments: [],
+            loading: false,
+            apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
             apartmentsList: [
@@ -52,6 +55,32 @@ export default {
         }
     },
     methods: {
+        getApartments(){
+            axios.get(this.apartmentsUrlAddress, {
+                params: {
+
+                }
+            })
+            .then((response) => {
+                console.log(response.data.results)
+                let results = response.data.results;
+                results.forEach(location => {
+                    this.apartments.push({
+                        position: {
+                            lat: location.longitude,
+                            lon: location.latitude,
+                        },
+                    })
+                });
+                console.log(this.apartments);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function () {
+
+            }); 
+        },
         getHouses(locationQuery) {
             axios.get(this.urlAddress + `${locationQuery}.json`, {
                 params: {
@@ -59,6 +88,9 @@ export default {
                 }
             })
             .then((response) => {
+                console.log(response)
+                console.log(this.apartments)
+                console.log(this.apartmentsList)
                 let centerCoordinate = response.data.results[0].position;
                 let position = `${response.data.results[0].position.lon},${response.data.results[0].position.lat}`;
                 axios.get(this.positionUrlAddress, {
@@ -71,10 +103,11 @@ export default {
                         radius: 10000
                         }
                     ]),
-                    poiList: JSON.stringify(this.apartmentsList)
+                    poiList: JSON.stringify(this.apartments)
                 }
                 })
                 .then((response) => {
+                    console.log(response)
                     const map = tt.map({
                     key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
                     container: "map",
@@ -88,6 +121,7 @@ export default {
                         MarkerEl.classList.add('marker');
                         console.log(MarkerEl); */
                         response.data.results.forEach(function (location) {
+                            console.log(location)
                             let marker = new tt.Marker().setLngLat([location.position.lat, location.position.lon]).addTo(map) 
                             const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
                             marker.setPopup(popup)
@@ -175,6 +209,9 @@ export default {
     },
     mounted(){
         this.map();
+    },
+    created(){
+        this.getApartments();
     }
 }
 </script>
