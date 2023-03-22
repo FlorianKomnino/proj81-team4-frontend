@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import {store} from '../store';
 
 
 export default {
@@ -14,6 +15,7 @@ export default {
             errors: {},
             success: false,
             apiAddress: 'http://127.0.0.1:8000/api/',
+            store
 
         }
     },
@@ -23,24 +25,37 @@ export default {
             this.success = false;
             // invio il form
             this.loading = true;
-            console.warn(this.name, this.email);
             const formData = {
-                name: this.name,
-                surname: this.surname,
+                name: (this.name == '') ? 'nuovo utente' : this.name,
+                surname: (this.surname == '') ? '-' : this.surname,
                 password: this.password,
-                birth_date: this.birth_date,
+                birth_date: (this.birth_date == '') ? '1000-01-01' : this.birth_date,
                 email: this.email,
             };
+            const loginData={
+                email: this.email,
+                password: this.password
+            };
             axios.post(`${this.apiAddress}user`, formData).then((response) => {
-                this.success = response.data.success;
-                console.log(this.success);
-                // console.warn(this.success);
-                if (this.success) {
-                    this.name = "";
-                    this.surname = "";
-                    this.email = "";
-                    this.password = "";
-                    this.birth_date = "";
+                this.success = response.data.success
+                if (this.success == undefined) {
+                    axios.post('http://127.0.0.1:8000/api/login', loginData)
+                        .then((resp) => {
+                            console.log(resp["data"]["status"]);
+                            //this.loadlist();
+                            //reset form
+                            this.name = "";
+                            this.surname = "";
+                            this.email = "";
+                            this.password = "";
+                            this.birth_date = "";
+                            this.store.userData = resp.data.data
+                            $cookies.set('user_data', resp.data.data, '30s')
+                            this.goToDashboard()
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                    })
                 } else {
                     this.errors = response.data.errors;
                     console.warn(this.errors);
@@ -49,6 +64,9 @@ export default {
                 //  se è andata bene fai a
                 // altrimenti fai b
             })
+        },
+        goToDashboard() {
+            this.$router.push('/userDashboard')
         }
     },
 }
@@ -123,9 +141,7 @@ export default {
 
 
             <div class="mb-4">
-                <router-link :to="{name:'UserDashboard'}" class="btn btn-primary"  @click.prevent="sendContactForm">
-                    Send contact form
-                </router-link>
+                <button class="btn btn-primary" @click.prevent="sendContactForm"> register </button>
             </div>
         </div>
     </section>
