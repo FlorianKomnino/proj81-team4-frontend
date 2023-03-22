@@ -1,10 +1,12 @@
 <script>
 import MapTomtom from '../components/Tomtom/MapTomtom.vue';
+import IconCard from '../components/IconCard.vue';
 
 export default {
     name: 'HomePage',
     components: {
         MapTomtom,
+        IconCard,
     },
     data() {
         return {
