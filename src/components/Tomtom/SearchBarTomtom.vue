@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             locationQuery: '',
-            radius: '',
+            radius: '20',
         }
     }
 }
@@ -12,7 +12,7 @@ export default {
 
 <template lang="">
     <div class="form-container input-group mb-3">
-        <form class="d-flex align-items-center" @keyup.enter="$emit('location', locationQuery, radius)">
+        <form class="d-flex align-items-center" @keyup="$emit('location', locationQuery, radius)">
             <div class="d-flex me-2 d-flex align-items-center">
                 <label class="text-nowrap me-2">Inserisci una città:</label>
                 <input type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"

@@ -17,31 +17,39 @@ export default {
     },
     data(){
         return{
-            locationQuery: '',
+            locationQuery: 'Milano',
+            radius: '20',
+
+            filteredApartments: [],
+
             apartments: [],
             initialApartments: [],
             foundApartments: [],
             apartmentsToShow: [],
+            servicesRequired: [],
+            services: ['Kitchen','Wi-fi','Pool','free Parking', 'Bus service'],
             loading: false,
-            apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments',
+            apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
         }
     },
     methods: {
         getApartments(){
-            this.locationQuery = '';
             this.apartmentsToShow = [];
             this.apartments = [];
+            const filters = this.servicesRequired;
             axios.get(this.apartmentsUrlAddress, {
-                params: {
-
+                params:{
+                    services: filters
                 }
             })
             .then((response) => {
-                this.initialApartments = response.data.results;
-                this.apartmentsToShow = response.data.results;
-                let results = response.data.results;
+                this.initialApartments = response.data.data;
+                this.apartmentsToShow = response.data.data;
+                this.filteredApartments = response.data.data;
+                console.log(this.filteredApartments);
+                let results = response.data.data;
                 results.forEach(location => {
                     this.apartments.push({
                         position: {
@@ -60,12 +68,13 @@ export default {
 
             }); 
         },
-        getHouses(locationQuery, radius) {
-            this.locationQuery = locationQuery.charAt(0).toUpperCase() + locationQuery.slice(1);
+        getHouses() {
+            const paramQuery = this.locationQuery
+            this.locationQuery = this.locationQuery.charAt(0).toUpperCase() + this.locationQuery.slice(1);
             this.apartmentsToShow = [];
-            axios.get(this.urlAddress + `${locationQuery}.json`, {
+            axios.get(this.urlAddress + `${paramQuery}.json`, {
                 params: {
-                    key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
+                    key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
                 }
             })
             .then((response) => {
@@ -73,12 +82,12 @@ export default {
                 let position = `${response.data.results[0].position.lat}, ${response.data.results[0].position.lon}`;
                 axios.get(this.positionUrlAddress, {
                 params: {
-                    key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
+                    key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
                     geometryList: JSON.stringify([
                         {
                         type: "CIRCLE",
                         position: position,
-                        radius: radius*1000
+                        radius: this.radius*1000
                         }
                     ]),
                     poiList: JSON.stringify(this.apartments)
@@ -86,7 +95,7 @@ export default {
                 })
                 .then((response) => {
                     const map = tt.map({
-                    key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
+                    key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
                     container: "map",
                     center: centerCoordinate,
                     zoom: 11
@@ -94,7 +103,6 @@ export default {
                     map.on('load', () => {
                         this.foundApartments = response.data.results
                         response.data.results.forEach(function (location) {
-                            console.log(location)
                             const MarkerEl = document.createElement("div");
                             MarkerEl.classList.add('marker', 'd-flex', 'justify-content-center', 'align-items-center');
                             MarkerEl.innerHTML = "<font-awesome-icon :icon=\"['fas', 'house']\" />";
@@ -102,23 +110,38 @@ export default {
                             const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
                             marker.setPopup(popup)
                         })
-                        for(let outerI=0 ; outerI<this.foundApartments.length; outerI++ ){
-                            for(let innerI=0 ; innerI<this.initialApartments.length; innerI++ ){
-                                if(this.foundApartments[outerI].position.id == this.initialApartments[innerI].id){
-                                    console.log('presente')
-                                    this.apartmentsToShow.push(this.initialApartments[innerI])
-                                }
-                            }
-                        }
+                        console.log(this.initialApartments)
+                        let checker = (arr, target) => target.every(v => arr.includes(v));
+
+                        // this.filteredApartments.forEach(element => {
+                        //     if (checker(element.services)) {
+                        //         for(let outerI=0 ; outerI<this.foundApartments.length; outerI++ ){
+                        //             for(let innerI=0 ; innerI<this.initialApartments.length; innerI++ ){
+                        //                 if(this.foundApartments[outerI].position.id == this.initialApartments[innerI].id){
+                        //                     this.apartmentsToShow.push(this.initialApartments[innerI])
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        // });
+
+                        // for(let outerI=0 ; outerI<this.foundApartments.length; outerI++ ){
+                        //             for(let innerI=0 ; innerI<this.initialApartments.length; innerI++ ){
+                        //                 if(this.foundApartments[outerI].position.id == this.initialApartments[innerI].id){
+                        //                     this.apartmentsToShow.push(this.initialApartments[innerI])
+                        //                 }
+                        //             }
+                        //         }
+
                     })
                     map.addControl(new tt.FullscreenControl());
                     map.addControl(new tt.NavigationControl());
+                    this.locationQuery = paramQuery
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
                 .finally(function () {
-
                 });
             })
             
@@ -127,7 +150,7 @@ export default {
             const iconMarker = document.getElementById('marker');
             let center = [9.192771, 45.463273]
             const map = tt.map({
-            key: "jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr",
+            key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
             container: "map",
             center: center,
             zoom: 12
@@ -137,13 +160,21 @@ export default {
                 })
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
+        },
+        logServices(){
+            console.log(this.servicesRequired)
+        },
+        waitLog(){
+            this.getApartments()
         }
     },
     mounted(){
         this.initialMap();
+        this.getApartments()
+        this.getHouses()
+
     },
     created(){
-        this.getApartments();
     }
 }
 </script>
@@ -152,7 +183,27 @@ export default {
     <hr class="m-0 mb-3">
     <div class="main-container">
         <div class="container-fluid search-bar-container">
-            <SearchBarTomtom @location="getHouses"/>
+            <!-- <SearchBarTomtom @location="getHouses"/> -->
+            <div class="form-container input-group mb-3">
+                <form class="d-flex align-items-center" @keyup.enter="getHouses">
+                    <div class="d-flex me-2 d-flex align-items-center">
+                        <label class="text-nowrap me-2">Inserisci una città:</label>
+                        <input type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+                        placeholder="Search" v-model="locationQuery">
+                    </div>
+                    <div class="d-flex d-flex align-items-center me-2">
+                        <label class="text-nowrap me-2">Inserisci un raggio (km):</label>
+                        <input type="number" class="form-control shadow-none" v-model="radius">
+                    </div>
+                </form>
+            </div>
+            <div class="d-flex checkboxes-container justify-content-evenly">
+
+                <label v-for="(service, index) in services" :for="service">{{service}}
+                    <input :value="index+1" :id="service" type="checkbox" v-model="servicesRequired">
+                </label>
+                <button @click="getApartments">cerca</button>
+            </div>
         </div>
         <div class="container-fluid pe-0">
             <div class="d-flex cards-map-container">
