@@ -17,6 +17,8 @@ export default {
     },
     data(){
         return{
+            rooms: 1,
+            beds: 1,
             locationQuery: 'Milano',
             radius: '20',
             filteredApartments: [],
@@ -25,7 +27,7 @@ export default {
             foundApartments: [],
             apartmentsToShow: [],
             servicesRequired: [],
-            services: ['Cucina','Wi-fi','Piscina','Parcheggio gratuito', 'Servizio navetta'],
+            services: ['Cucina', 'Wi-fi', 'Piscina', 'Parcheggio gratuito', 'Servizio navetta'],
             loading: false,
             apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
@@ -37,7 +39,7 @@ export default {
             this.apartmentsToShow = [];
             this.apartments = [];
             const filters = this.servicesRequired;
-            axios.get(this.apartmentsUrlAddress, {
+            axios.get(this.apartmentsUrlAddress + this.rooms + '/' + this.beds, {
                 params:{
                     services: filters
                 }
@@ -160,20 +162,30 @@ export default {
         <div class="container-fluid search-bar-container">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
             <div class="form-container input-group mb-3">
-                <form class="d-flex align-items-center" @keyup.enter="getApartments">
-                    <div class="d-flex me-2 d-flex align-items-center">
+                <form class="row align-items-center" @keyup.enter="getApartments">
+                    <div class="col-6 d-flex me-2 d-flex align-items-center">
                         <label class="text-nowrap me-2">Inserisci una città:</label>
                         <input type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
                         placeholder="Search" v-model="locationQuery">
                     </div>
-                    <div class="d-flex d-flex align-items-center me-2">
+                    <div class="col-5 d-flex d-flex align-items-center me-2">
                         <label class="text-nowrap me-2">Inserisci un raggio (km):</label>
                         <input type="number" class="form-control shadow-none" v-model="radius">
                     </div>
-                    <div class="d-flex checkboxes-container justify-content-evenly">
-        
-                        <label v-for="(service, index) in services" :for="service">{{service}}
+                    <div class="row h-100 col-4 mt-3">
+                        <div class="col-6">
+                            <label for="rooms"> n° Stanze</label>
+                            <input type="number" class="form-control d-inline" v-model="rooms">
+                        </div>
+                        <div class="col-6">
+                            <label for="beds"> n° Letti</label>
+                            <input type="number" class="form-control d-inline" v-model="beds">
+                        </div>
+                    </div>
+                    <div class="col-8 h-100 checkboxes-container d-flex justify-content-evenly align-items-center">
+                        <label v-for="(service, index) in services" :for="service">
                             <input :value="index+1" :id="service" type="checkbox" v-model="servicesRequired">
+                            {{service}}
                         </label>
                     </div>
                 </form>
