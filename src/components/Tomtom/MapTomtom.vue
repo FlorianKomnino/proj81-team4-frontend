@@ -19,15 +19,13 @@ export default {
         return{
             locationQuery: 'Milano',
             radius: '20',
-
             filteredApartments: [],
-
             apartments: [],
             initialApartments: [],
             foundApartments: [],
             apartmentsToShow: [],
             servicesRequired: [],
-            services: ['Kitchen','Wi-fi','Pool','free Parking', 'Bus service'],
+            services: ['Cucina','Wi-fi','Piscina','Parcheggio gratuito', 'Servizio navetta'],
             loading: false,
             apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
@@ -46,9 +44,7 @@ export default {
             })
             .then((response) => {
                 this.initialApartments = response.data.data;
-                this.apartmentsToShow = response.data.data;
                 this.filteredApartments = response.data.data;
-                console.log(this.filteredApartments);
                 let results = response.data.data;
                 results.forEach(location => {
                     this.apartments.push({
@@ -60,80 +56,58 @@ export default {
                         
                     })
                 });
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .finally(function () {
-
-            }); 
-        },
-        getHouses() {
-            const paramQuery = this.locationQuery
-            this.locationQuery = this.locationQuery.charAt(0).toUpperCase() + this.locationQuery.slice(1);
-            this.apartmentsToShow = [];
-            axios.get(this.urlAddress + `${paramQuery}.json`, {
-                params: {
-                    key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
-                }
-            })
-            .then((response) => {
-                let centerCoordinate = response.data.results[0].position;
-                let position = `${response.data.results[0].position.lat}, ${response.data.results[0].position.lon}`;
-                axios.get(this.positionUrlAddress, {
-                params: {
-                    key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
-                    geometryList: JSON.stringify([
-                        {
-                        type: "CIRCLE",
-                        position: position,
-                        radius: this.radius*1000
-                        }
-                    ]),
-                    poiList: JSON.stringify(this.apartments)
-                }
+                const paramQuery = this.locationQuery
+                this.locationQuery = this.locationQuery.charAt(0).toUpperCase() + this.locationQuery.slice(1);
+                this.apartmentsToShow = [];
+                const filteredApartment = this.filteredApartments
+                axios.get(this.urlAddress + `${paramQuery}.json`, {
+                    params: {
+                        key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
+                    }
                 })
                 .then((response) => {
-                    const map = tt.map({
-                    key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
-                    container: "map",
-                    center: centerCoordinate,
-                    zoom: 11
+                    let centerCoordinate = response.data.results[0].position;
+                    let position = `${response.data.results[0].position.lat}, ${response.data.results[0].position.lon}`;
+                    
+                    axios.get(this.positionUrlAddress, {
+                    params: {
+                        key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
+                        geometryList: JSON.stringify([
+                            {
+                            type: "CIRCLE",
+                            position: position,
+                            radius: this.radius*1000
+                            }
+                        ]),
+                        poiList: JSON.stringify(this.apartments)
+                    }
                     })
-                    map.on('load', () => {
-                        this.foundApartments = response.data.results
-                        response.data.results.forEach(function (location) {
-                            const MarkerEl = document.createElement("div");
-                            MarkerEl.classList.add('marker', 'd-flex', 'justify-content-center', 'align-items-center');
-                            MarkerEl.innerHTML = "<font-awesome-icon :icon=\"['fas', 'house']\" />";
-                            let marker = new tt.Marker().setLngLat([location.position.lon, location.position.lat]).addTo(map) 
-                            const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
-                            marker.setPopup(popup)
+                    .then((response) => {
+                        const map = tt.map({
+                        key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
+                        container: "map",
+                        center: centerCoordinate,
+                        zoom: 11
                         })
-                        console.log(this.initialApartments)
-                        let checker = (arr, target) => target.every(v => arr.includes(v));
-
-                        // this.filteredApartments.forEach(element => {
-                        //     if (checker(element.services)) {
-                        //         for(let outerI=0 ; outerI<this.foundApartments.length; outerI++ ){
-                        //             for(let innerI=0 ; innerI<this.initialApartments.length; innerI++ ){
-                        //                 if(this.foundApartments[outerI].position.id == this.initialApartments[innerI].id){
-                        //                     this.apartmentsToShow.push(this.initialApartments[innerI])
-                        //                 }
-                        //             }
-                        //         }
-                        //     }
-                        // });
-
-                        // for(let outerI=0 ; outerI<this.foundApartments.length; outerI++ ){
-                        //             for(let innerI=0 ; innerI<this.initialApartments.length; innerI++ ){
-                        //                 if(this.foundApartments[outerI].position.id == this.initialApartments[innerI].id){
-                        //                     this.apartmentsToShow.push(this.initialApartments[innerI])
-                        //                 }
-                        //             }
-                        //         }
-
-                    })
+                        map.on('load', () => {
+                            console.log(response.data.results)
+                            this.foundApartments = response.data.results
+                            response.data.results.forEach(function (location) {
+                                const MarkerEl = document.createElement("div");
+                                MarkerEl.classList.add('marker', 'd-flex', 'justify-content-center', 'align-items-center');
+                                MarkerEl.innerHTML = "<font-awesome-icon :icon=\"['fas', 'house']\" />";
+                                let marker = new tt.Marker().setLngLat([location.position.lon, location.position.lat]).addTo(map) 
+                                const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
+                                marker.setPopup(popup)
+                            })
+                            this.foundApartments.forEach((positionApartment) => {
+                                this.initialApartments.forEach((filteredApartment)=>{
+                                    if (filteredApartment.id == positionApartment.position.id) {
+                                        this.apartmentsToShow.push(filteredApartment)
+                                    }
+                                })
+                            });
+                        })
                     map.addControl(new tt.FullscreenControl());
                     map.addControl(new tt.NavigationControl());
                     this.locationQuery = paramQuery
@@ -144,7 +118,12 @@ export default {
                 .finally(function () {
                 });
             })
-            
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
         },
         initialMap(){
             const iconMarker = document.getElementById('marker');
@@ -164,14 +143,10 @@ export default {
         logServices(){
             console.log(this.servicesRequired)
         },
-        waitLog(){
-            this.getApartments()
-        }
     },
     mounted(){
         this.initialMap();
         this.getApartments()
-        this.getHouses()
 
     },
     created(){
@@ -185,7 +160,7 @@ export default {
         <div class="container-fluid search-bar-container">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
             <div class="form-container input-group mb-3">
-                <form class="d-flex align-items-center" @keyup.enter="getHouses">
+                <form class="d-flex align-items-center" @keyup.enter="getApartments">
                     <div class="d-flex me-2 d-flex align-items-center">
                         <label class="text-nowrap me-2">Inserisci una città:</label>
                         <input type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
@@ -195,14 +170,13 @@ export default {
                         <label class="text-nowrap me-2">Inserisci un raggio (km):</label>
                         <input type="number" class="form-control shadow-none" v-model="radius">
                     </div>
+                    <div class="d-flex checkboxes-container justify-content-evenly">
+        
+                        <label v-for="(service, index) in services" :for="service">{{service}}
+                            <input :value="index+1" :id="service" type="checkbox" v-model="servicesRequired">
+                        </label>
+                    </div>
                 </form>
-            </div>
-            <div class="d-flex checkboxes-container justify-content-evenly">
-
-                <label v-for="(service, index) in services" :for="service">{{service}}
-                    <input :value="index+1" :id="service" type="checkbox" v-model="servicesRequired">
-                </label>
-                <button @click="getApartments">cerca</button>
             </div>
         </div>
         <div class="container-fluid pe-0">
