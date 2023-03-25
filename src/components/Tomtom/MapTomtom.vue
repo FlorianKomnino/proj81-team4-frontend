@@ -110,7 +110,6 @@ export default {
                                         zoom: 11
                                     })
                                     map.on('load', () => {
-                                        console.log(response.data.results)
                                         this.foundApartments = response.data.results
                                         response.data.results.forEach(function (location) {
                                             const MarkerEl = document.createElement("div");
@@ -120,6 +119,13 @@ export default {
                                             const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
                                             marker.setPopup(popup)
                                         })
+                                        this.foundApartments.forEach((apartment) =>{
+                                            apartment.distance = turf.distance([centerCoordinate.lat,centerCoordinate.lon],[apartment.position.lat,apartment.position.lon])
+                                        })
+
+                                        this.foundApartments.sort((a,b)=>a.distance-b.distance)
+                                        console.log(this.foundApartments)
+
                                         this.foundApartments.forEach((positionApartment) => {
                                             this.initialApartments.forEach((filteredApartment) => {
                                                 if (filteredApartment.id == positionApartment.position.id) {
@@ -160,14 +166,10 @@ export default {
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
         },
-        logServices() {
-            console.log(this.servicesRequired)
-        },
     },
     mounted() {
         this.initialMap();
         this.getApartments()
-
     },
     created() {
     }
