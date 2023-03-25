@@ -16,11 +16,13 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@tomtom-international/web-sdk-maps": "^6.23.0",
     "@tomtom-international/web-sdk-services": "^6.23.0",
+    "@turf/distance": "^6.5.0",
     "axios": "^1.3.4",
     "bootstrap": "^5.2.3",
     "fuse.js": "^6.6.2",
     "fuzzy-search": "^3.2.1",
     "qs": "^6.11.1",
+    "turf-point": "^2.0.1",
     "vue": "^3.2.45",
     "vue-cookies": "^1.8.3",
     "vue-router": "^4.1.6"
