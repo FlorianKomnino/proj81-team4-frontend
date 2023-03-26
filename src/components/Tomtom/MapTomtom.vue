@@ -35,24 +35,6 @@ export default {
         }
     },
     methods: {
-
-        addParamsToLocation(params) {
-            history.replaceState(
-                {},
-                null,
-                this.$route.path +
-                '?' +
-                Object.keys(params)
-                    .map(key => {
-                        return (
-                            encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
-                        )
-                    })
-                    .join('&')
-            )
-        },
-
-
         getApartments() {
             this.apartmentsToShow = [];
             this.apartments = [];
@@ -178,9 +160,6 @@ export default {
 
 <template lang="">
     <hr class="m-0 mb-3">
-    <div class="btn" @click="addParamsToLocation('Cucina')">
-        params
-    </div>
     <div class="main-container">
         <div class="container-fluid search-bar-container">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
