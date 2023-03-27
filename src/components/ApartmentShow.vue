@@ -14,7 +14,7 @@ export default {
     methods: {
     initialMap() {
             const iconMarker = document.getElementById('marker');
-            let center = [this.apartment.latitude, this.apartment.longitude]
+            let center = [this.$props.position.lon,this.$props.position.lat]
             const map = tt.map({
                 key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
                 container: "map",
@@ -30,6 +30,7 @@ export default {
     },
     mounted() {
         this.initialMap()
+        console.log(this.$props)
     }
 }
 </script>
@@ -37,7 +38,6 @@ export default {
     <div class='container'>
         <div class='col-12'>
             <h2>{{apartment.title}}</h2>
-            <pre>{{position.lat}}</pre>
             <h6>{{apartment.address}}</h6>
             <img :src="imageBaseURL+'storage/'+apartment.image" alt="" class='rounded mx-auto d-block'>
         <div class='mt-5 col-8'></div>
