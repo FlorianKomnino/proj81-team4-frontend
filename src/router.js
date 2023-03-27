@@ -14,6 +14,11 @@ const router = createRouter({
             component: HomePage
         },
         {
+            path: '/search/:where?/:radius?/:beds?/:rooms?',
+            name: 'search',
+            component: HomePage
+        },
+        {
             path: '/registration',
             name: 'RegistrationForm',
             component: RegistrationForm
