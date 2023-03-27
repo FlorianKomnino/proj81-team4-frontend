@@ -5,20 +5,20 @@ export default {
         return {
             imageBaseURL: 'http://127.0.0.1:8000/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
+            longitude: 0,
+            latitude: 0,
         }
     },
     props: {
         apartment: Object,
-        position: Object
     },
     methods: {
     initialMap() {
-            const iconMarker = document.getElementById('marker');
-            let center = [this.$props.position.lon,this.$props.position.lat]
+            //const iconMarker = document.getElementById('marker'); 
             const map = tt.map({
                 key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
                 container: "map",
-                center: center,
+                center: [this.$props.apartment.longitude, this.$props.apartment.latitude],
                 zoom: 12
             })
             map.on('load', () => {
@@ -29,8 +29,7 @@ export default {
         },
     },
     mounted() {
-        this.initialMap()
-        console.log(this.$props)
+        this.initialMap()        
     }
 }
 </script>

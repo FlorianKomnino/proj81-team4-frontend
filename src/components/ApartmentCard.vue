@@ -1,6 +1,12 @@
 <script>
+
 export default {
     name: 'ApartmentCard',
+    data() {
+        return {
+            store
+        }
+    },
     props: {
         title: String,
         image: String,
@@ -22,6 +28,9 @@ export default {
             imageBaseURL: 'http://127.0.0.1:8000/',
         }
     },
+    methods: {
+
+    },
     mounted() {
         console.log(this.apartment)
     }
@@ -37,7 +46,7 @@ export default {
             <p class="card-text">Indirizzo: {{address}}</p>
             <p class="card-text">Numero di stanze: {{rooms}}</p>
             <p class="card-text">Numero di letti: {{beds}}</p>
-            <router-link v-if="!isShow" :to="{ name: 'apartment', params: { slug: apartment.slug } }"
+            <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
                 class="btn btn-primary mt-5">View Apartment
             </router-link>
         </div>

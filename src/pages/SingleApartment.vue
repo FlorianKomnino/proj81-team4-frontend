@@ -10,6 +10,7 @@ export default {
         return {
             apartment: {},
             position: {},
+            hasData: false,
             urlAddress: 'http://127.0.0.1:8000/api/apartments/' + this.$route.params.slug,
         }
     },
@@ -21,7 +22,7 @@ export default {
             })
             .then((response) => {
                 this.apartment = response.data.data;
-                this.position = {lat:this.apartment.latitude,lon: this.apartment.longitude , id:this.apartment.id}
+                this.hasData = true
             })
             .catch(function (error) {
                 console.warn(error);
@@ -36,7 +37,7 @@ export default {
 </script>
 <template>
     <div class="container">
-        <ApartmentShow  :apartment="apartment" :position="position" />
+        <ApartmentShow v-if="hasData"  :apartment="apartment" :position="position" />
     </div>
 </template>
 <style lang="scss">
