@@ -22,7 +22,10 @@ export default {
                 zoom: 12
             })
             map.on('load', () => {
-
+                const iconMarker = document.getElementById('marker');
+                const popup = new tt.Popup({ anchor: 'top' }).setText('Posizione esatta fornita dopo la prenotazione.')
+                let marker = new tt.Marker({ element: iconMarker }).setLngLat([this.$props.apartment.longitude, this.$props.apartment.latitude]).setPopup(popup).addTo(map);
+                marker.addTo(map);
             })
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
@@ -47,7 +50,11 @@ export default {
             <span> Numero di bagni: {{apartment.bathrooms}}</span>
         </div>
         <div class="map-container col-12">
-            <div id="map" class="map"></div>
+            <div id="map" class="map">
+                <div id="marker" class="d-flex justify-content-center align-items-center">
+                    <font-awesome-icon :icon="['fas', 'house']" class="marker-icon" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -56,6 +63,17 @@ export default {
 #map{
     height: 400px;
     width: 100%;
+    #marker{
+            background-color: $main-bg-color;
+            border-radius: 50%;
+            height: 48px;
+            width: 48px;
+            color: white;
+            .marker-icon{
+                height: 22px;
+                width: 22px;
+            }
+    }
 }
 img{
         width: 100%;
