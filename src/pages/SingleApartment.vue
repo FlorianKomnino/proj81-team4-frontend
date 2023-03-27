@@ -9,24 +9,26 @@ export default {
     data() {
         return {
             apartment: {},
+            position: {},
             urlAddress: 'http://127.0.0.1:8000/api/apartments/' + this.$route.params.slug,
         }
     },
     methods: {
         getApartment(){
-            console.log(this.$route);
             axios.get(this.urlAddress, {
                 params: {
                 }
             })
             .then((response) => {
                 this.apartment = response.data.data;
+                this.position = {lat:this.apartment.latitude,lon: this.apartment.longitude , id:this.apartment.id}
             })
             .catch(function (error) {
                 console.warn(error);
             });
-        }
+        },
     },
+    
     created() {
         this.getApartment();
     },
@@ -34,8 +36,8 @@ export default {
 </script>
 <template>
     <div class="container">
-        <ApartmentShow  :apartment="apartment" />
+        <ApartmentShow  :apartment="apartment" :position="position" />
     </div>
 </template>
-<style lang="">
+<style lang="scss">
 </style>
