@@ -14,7 +14,10 @@ export default {
 </script>
 
 <template>
-  <HeaderComponent />
+  <header>
+    <HeaderComponent />
+  </header>
+  
   <main>
     <router-view></router-view>
   </main>

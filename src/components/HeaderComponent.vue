@@ -25,8 +25,9 @@ export default {
 <style lang="scss" scoped>
 .header-container {
     height: 8vh;
-    position: fixed;
     z-index: 2;
+    left: 0;
+    top: 0;
 
     a {
         background-color: white;
@@ -44,8 +45,9 @@ export default {
     }
 
     .logo {
-        height: 100%;
-        transform: scale(0.7);
+        width: 100%;
+        height: 120px;
+        transform: scale(0.5);
     }
 }
 </style>
