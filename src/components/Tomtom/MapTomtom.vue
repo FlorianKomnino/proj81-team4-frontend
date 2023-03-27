@@ -8,6 +8,7 @@ import SearchBarTomtom from './SearchBarTomtom.vue';
 import ApartmentCard from '../ApartmentCard.vue';
 import axios from 'axios';
 import { Marker } from 'mapbox-gl';
+import { useRoute } from 'vue-router';
 
 export default {
     name: 'MapTomtom',
@@ -17,6 +18,9 @@ export default {
     },
     data() {
         return {
+            route: null,
+            firstCall: true,
+
             rooms: 1,
             beds: 1,
             locationQuery: 'Milano',
@@ -28,6 +32,11 @@ export default {
             apartmentsToShow: [],
             servicesRequired: [],
             services: ['Cucina', 'Wi-fi', 'Piscina', 'Parcheggio gratuito', 'Servizio navetta'],
+            kitchenElement: null,
+            wiFiElement: null,
+            poolElement: null,
+            parkingElement: null,
+            busServiceElement: null,
             loading: false,
             apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
@@ -35,24 +44,6 @@ export default {
         }
     },
     methods: {
-
-        addParamsToLocation(params) {
-            history.replaceState(
-                {},
-                null,
-                this.$route.path +
-                '?' +
-                Object.keys(params)
-                    .map(key => {
-                        return (
-                            encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
-                        )
-                    })
-                    .join('&')
-            )
-        },
-
-
         getApartments() {
             this.apartmentsToShow = [];
             this.apartments = [];
@@ -79,7 +70,6 @@ export default {
                     const paramQuery = this.locationQuery
                     this.locationQuery = this.locationQuery.charAt(0).toUpperCase() + this.locationQuery.slice(1);
                     this.apartmentsToShow = [];
-                    const filteredApartment = this.filteredApartments
                     axios.get(this.urlAddress + `${paramQuery}.json`, {
                         params: {
                             key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
@@ -122,10 +112,7 @@ export default {
                                         this.foundApartments.forEach((apartment) =>{
                                             apartment.distance = turf.distance([centerCoordinate.lat,centerCoordinate.lon],[apartment.position.lat,apartment.position.lon])
                                         })
-
                                         this.foundApartments.sort((a,b)=>a.distance-b.distance)
-                                        console.log(this.foundApartments)
-
                                         this.foundApartments.forEach((positionApartment) => {
                                             this.initialApartments.forEach((filteredApartment) => {
                                                 if (filteredApartment.id == positionApartment.position.id) {
@@ -166,21 +153,95 @@ export default {
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
         },
-    },
-    mounted() {
-        this.initialMap();
-        this.getApartments()
+        addParamsToLocation(){
+            this.$route.params.where = this.locationQuery
+            this.$route.params.radius = this.radius
+            this.$route.params.beds = this.beds
+            this.$route.params.rooms = this.rooms
+            this.$router.push({path: '/search', query: 
+                {
+                    where: this.locationQuery, 
+                    radius: this.radius, 
+                    beds: this.beds, 
+                    rooms: this.rooms,
+                    kitchen: this.kitchenElement.checked,
+                    wiFi: this.wiFiElement.checked,
+                    pool: this.poolElement.checked,
+                    parking: this.parkingElement.checked,
+                    busService: this.busServiceElement.checked
+                }})
+        },
+        hasUrlValues(){
+
+            let locationFilter = '';
+            let radiusFilter = '';
+            let bedsFilter = '';
+            let roomsFilter = '';
+
+            let queryString = window.location.search;
+            let urlParams = new URLSearchParams(queryString);
+            if( urlParams.has('where') ){
+                locationFilter = urlParams.get('where');
+            }
+            if( urlParams.has('radius') ){
+                radiusFilter = urlParams.get('radius');
+            }
+            if( urlParams.has('beds') ){
+                bedsFilter = urlParams.get('beds');
+            }
+            if( urlParams.has('rooms') ){
+                roomsFilter = urlParams.get('rooms');
+            }
+
+            if (locationFilter != '') {
+                this.locationQuery = locationFilter
+            }
+            if (radiusFilter != '') {
+                this.radius = radiusFilter
+            }
+            if (bedsFilter != '') {
+                this.beds = bedsFilter
+            }
+            if (roomsFilter != '') {
+                this.rooms = roomsFilter
+            }
+            if (urlParams.get('kitchen') == 'true') {
+                this.servicesRequired.push(1)
+            }
+            if (urlParams.get('wiFi') == 'true') {
+                this.servicesRequired.push(2)
+            }
+            if (urlParams.get('pool') == 'true') {
+                this.servicesRequired.push(3)
+            }
+            if (urlParams.get('parking') == 'true') {
+                this.servicesRequired.push(4)
+            }
+            if (urlParams.get('busService') == 'true') {
+                this.servicesRequired.push(5)
+            }
+        },
     },
     created() {
-    }
+    },
+    beforeMount(){
+        
+    },
+    mounted() {
+        this.kitchenElement = document.getElementById('Cucina')
+        this.wiFiElement = document.getElementById('Wi-fi')
+        this.poolElement = document.getElementById('Piscina')
+        this.parkingElement = document.getElementById('Parcheggio gratuito')
+        this.busServiceElement = document.getElementById('Servizio navetta')
+        this.hasUrlValues()
+        this.initialMap()
+        this.getApartments()
+    },
 }
 </script>
 
 <template lang="">
     <hr class="m-0 mb-3">
-    <div class="btn" @click="addParamsToLocation('Cucina')">
-        params
-    </div>
     <div class="main-container">
         <div class="container-fluid search-bar-container">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
@@ -188,26 +249,26 @@ export default {
                 <form class="row align-items-center" @keyup.enter="getApartments">
                     <div class="col-6 d-flex me-2 d-flex align-items-center">
                         <label class="text-nowrap me-2">Inserisci una città:</label>
-                        <input type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+                        <input @keyup="addParamsToLocation" type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
                         placeholder="Search" v-model="locationQuery">
                     </div>
                     <div class="col-5 d-flex d-flex align-items-center me-2">
                         <label class="text-nowrap me-2">Inserisci un raggio (km):</label>
-                        <input type="number" class="form-control shadow-none" v-model="radius">
+                        <input @keyup="addParamsToLocation" type="number" class="form-control shadow-none" v-model="radius">
                     </div>
                     <div class="row h-100 col-4 mt-3">
                         <div class="col-6">
                             <label for="rooms"> n° Stanze</label>
-                            <input type="number" class="form-control d-inline" v-model="rooms">
+                            <input @keyup="addParamsToLocation" type="number" class="form-control d-inline" v-model="rooms">
                         </div>
                         <div class="col-6">
                             <label for="beds"> n° Letti</label>
-                            <input type="number" class="form-control d-inline" v-model="beds">
+                            <input @keyup="addParamsToLocation" type="number" class="form-control d-inline" v-model="beds">
                         </div>
                     </div>
                     <div class="col-8 h-100 checkboxes-container d-flex justify-content-evenly align-items-center">
                         <label v-for="(service, index) in services" :for="service">
-                            <input :value="index+1" :id="service" type="checkbox" v-model="servicesRequired">
+                            <input :value="index+1" :id="service" type="checkbox" @click="addParamsToLocation" v-model="servicesRequired">
                             {{service}}
                         </label>
                     </div>
