@@ -7,11 +7,23 @@ export default {
         rooms: Number,
         beds: Number,
         address: String,
+        apartment: {
+            type: Object,
+            required: true,
+        },
+        isShow: {
+            type: Boolean,
+            required: false,
+            default: false,
+            }
     },
     data(){
         return{
             imageBaseURL: 'http://127.0.0.1:8000/',
         }
+    },
+    mounted() {
+        console.log(this.apartment)
     }
 }
 </script>
@@ -25,6 +37,9 @@ export default {
             <p class="card-text">Indirizzo: {{address}}</p>
             <p class="card-text">Numero di stanze: {{rooms}}</p>
             <p class="card-text">Numero di letti: {{beds}}</p>
+            <router-link v-if="!isShow" :to="{ name: 'apartment', params: { slug: apartment.slug } }"
+                class="btn btn-primary mt-5">View Apartment
+            </router-link>
         </div>
     </div>
 </template>

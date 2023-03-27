@@ -201,7 +201,7 @@ export default {
                     </p>
                     <div class="row g-4 align-items-stretch" >
                         <div class="col-4" v-for="apartment in apartmentsToShow">
-                            <ApartmentCard :title="apartment.title" :image="apartment.image" :rooms="apartment.rooms" :beds="apartment.beds" :address="apartment.address"/>
+                            <ApartmentCard :title="apartment.title" :image="apartment.image" :rooms="apartment.rooms" :beds="apartment.beds" :address="apartment.address" :apartment='apartment'/>
                         </div>
                     </div>
                 </div>

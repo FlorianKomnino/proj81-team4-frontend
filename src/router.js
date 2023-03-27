@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage.vue';
 import RegistrationForm from './pages/RegistrationForm.vue';
 import UserDashboard from './pages/UserDashboard.vue';
 import LoginForm from './pages/LoginForm.vue';
+import SingleApartment from './pages/SingleApartment.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -28,6 +29,11 @@ const router = createRouter({
             name: 'LoginForm',
             component: LoginForm
         },
+        {
+            path: '/apartment/:slug',
+            name: 'apartment',
+            component : SingleApartment
+        }
     ]
 });
 
