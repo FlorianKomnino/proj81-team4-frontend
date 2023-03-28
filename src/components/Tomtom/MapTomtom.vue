@@ -9,6 +9,8 @@ import ApartmentCard from '../ApartmentCard.vue';
 import axios from 'axios';
 import { Marker } from 'mapbox-gl';
 import { useRoute } from 'vue-router';
+import { services } from '@tomtom-international/web-sdk-services';
+import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
 
 export default {
     name: 'MapTomtom',
@@ -20,7 +22,6 @@ export default {
         return {
             route: null,
             firstCall: true,
-
             rooms: 1,
             beds: 1,
             locationQuery: 'Milano',
@@ -221,6 +222,48 @@ export default {
                 this.servicesRequired.push(5)
             }
         },
+        autocompleteAddress(){
+            console.log('ciao')
+            const option = {
+                idleTimePress: 100,
+                minNumberOfCharacters: 0,
+                searchOptions: {
+                    key: 'jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr',
+                    language: 'it-IT',
+                    limit: 10,
+                },
+                autocompleteOptions: {
+                    key: 'jEFhMI0rD5tTkGjuW8dYlC2x3UFxNRJr',
+                    language: 'it-IT',
+                    resultSet: 'category'
+                },
+                labels: {
+                    noResultsMessage: 'Nessun risultato trovato'
+                },
+            }
+            const ttSearchBox = new SearchBox(services, option);
+            const searchBar = document.getElementById('searchbar');
+            const searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+            searchBar.append(searchBoxHTML);
+            const oldInput = this.locationQuery.value;
+            const icon = document.querySelector('.tt-search-box-close-icon');
+            ttSearchBox.on("tomtom.searchbox.resultselected", this.handleResultSelection);
+
+            icon.addEventListener('click', function () {
+            if (oldInput) {
+                this.locationQuery = oldInput
+            } else {
+                this.locationQuery = ''
+            }
+        })
+        },
+        handleResultSelection(event) {
+            // if you click the "X" on the search bar the handleResultSelection's result will be null and the input will have the old value
+            if (event.data.result.address.freeformAddress) {
+                this.locationQuery = event.data.result.address.freeformAddress
+            }
+            this.addParamsToLocation()
+        }
     },
     created() {
     },
@@ -235,6 +278,7 @@ export default {
         this.busServiceElement = document.getElementById('Servizio navetta')
         this.hasUrlValues()
         this.initialMap()
+        this.autocompleteAddress()
         this.getApartments()
     },
 }
@@ -247,10 +291,11 @@ export default {
             <!-- <SearchBarTomtom @location="getHouses"/> -->
             <div class="form-container input-group mb-3">
                 <form class="row align-items-center" @keyup.enter="getApartments">
-                    <div class="col-6 d-flex me-2 d-flex align-items-center">
+                    <div class="col-6 d-flex me-2 d-flex align-items-center search-wrapper">
                         <label class="text-nowrap me-2">Inserisci una città:</label>
-                        <input @keyup="addParamsToLocation" type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+                        <input id="address" name="address" @keyup="addParamsToLocation" type="text" class="form-control shadow-none d-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
                         placeholder="Search" v-model="locationQuery">
+                        <div id="searchbar" class="mb-2"></div>
                     </div>
                     <div class="col-5 d-flex d-flex align-items-center me-2">
                         <label class="text-nowrap me-2">Inserisci un raggio (km):</label>
@@ -308,6 +353,10 @@ hr {
 .main-container {
 
     position: fixed;
+
+    #searchbar{
+        width: 500px;
+    }
 
     .cards-map-container {
         height: 86vh;
