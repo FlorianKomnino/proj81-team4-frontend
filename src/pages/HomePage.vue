@@ -79,13 +79,13 @@ export default {
 </script>
 
 <template lang="">
-    <div class="container">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-12 d-flex justify-content-between">
                 <IconCard v-for="icon in icons" :iconArgument="icon.title" :faIconString="icon.icon"/>
             </div>
         </div>
-    </div>
+    </div> -->
     <section id="advanced-research">
         <MapTomtom />
     </section>

@@ -294,7 +294,7 @@ export default {
             <form class="row align-items-center justify-content-evenly" @keyup.enter="getApartments">
                 <div class="col-5 d-flex align-items-center">
                     <label class="me-2">Inserisci una città:</label>
-                    <input id="address" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
+                    <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
                     <div id="searchbar" class="mb-2"></div>
                 </div>
                 <div class="col-5 d-flex align-items-center">
