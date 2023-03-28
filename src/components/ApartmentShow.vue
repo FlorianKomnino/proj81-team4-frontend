@@ -1,12 +1,16 @@
 <script>
 import tt from '@tomtom-international/web-sdk-maps'
+import axios from 'axios'
 export default {
     data() {
         return {
             imageBaseURL: 'http://127.0.0.1:8000/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
+            messageBaseUrl: 'http://127.0.0.1:8000/api/apartments/message',
             longitude: 0,
             latitude: 0,
+            userMessage: '',
+            userEmail: '',
         }
     },
     props: {
@@ -30,6 +34,24 @@ export default {
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
         },
+    sendMessage(id){
+        axios.post(this.messageBaseUrl, {
+            params: {
+                email: this.userEmail,
+                message: this.userMessage,
+                //apartmentId: id,
+            }
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .finally(function () {
+            // always executed
+        }); 
+    }
     },
     mounted() {
         this.initialMap()        
@@ -56,6 +78,15 @@ export default {
                 </div>
             </div>
         </div>
+        <div class="messageContainer my-4">
+            <label for="" class="fs-1">Inserisci messaggio</label>
+            <textarea name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
+            <label for="">Inserisci la tua email</label>
+            <input type="email" v-model="userEmail">
+            <button @click="sendMessage">
+                invia il messaggio
+            </button>
+        </div>
     </div>
 </template>
 <style lang="scss">
@@ -78,4 +109,9 @@ export default {
 img{
         width: 100%;
     }
+
+.messageContainer{
+    height: 1000px;
+    border: 1px solid black;
+}
 </style>
