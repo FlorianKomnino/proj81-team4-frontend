@@ -29,7 +29,8 @@ export default {
         },
     },
     mounted() {
-        this.initialMap()        
+        this.initialMap()
+        console.log(this.$props.apartment)        
     }
 }
 </script>
@@ -46,8 +47,16 @@ export default {
             <span> Numero di letti: {{apartment.beds}} &#8226;</span>
             <span> Numero di bagni: {{apartment.bathrooms}}</span>
         </div>
+        <div class='mt-5'>
+            <h3>Cosa troverai</h3>
+            <p v-for="service in apartment.services">
+                <font-awesome-icon :icon="service.icon" />
+                {{service.name}}                
+            </p>
+        </div>
         <div class="map-container col-12">
-            <div id="map" class="map"></div>
+            <h3>Dove ti troverai</h3>
+            <div id="map" class="map mb-3"></div>
         </div>
     </div>
 </template>
