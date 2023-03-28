@@ -323,18 +323,18 @@ export default {
             </div>
         </div>
         <div class="container-fluid pe-0">
-            <div class="d-flex cards-map-container">
-                <div class="card-container pe-4" v-if="apartmentsToShow">
+            <div class="row cards-map-container justify-content-between">
+                <div class="col-12">
                     <p v-if="locationQuery">
                         Abbiamo trovato {{apartmentsToShow.length}} alloggi in questa località: {{locationQuery}}
                     </p>
-                    <div class="row g-4 align-items-stretch" >
-                        <div class="col-4" v-for="apartment in apartmentsToShow">
-                            <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
-                        </div>
+                </div>
+                <div class="col-8 row" v-if="apartmentsToShow">
+                    <div class="col-4" v-for="apartment in apartmentsToShow">
+                        <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                     </div>
                 </div>
-                <div class="map-container">
+                <div class="map-container col-4">
                     <div id="map" class="map"></div>
                 </div>
             </div>
@@ -359,39 +359,10 @@ hr {
     }
 
     .cards-map-container {
+        position: relative;
         height: 86vh;
         overflow-y: scroll;
 
-
-        .card-container {
-            width: 60vw;
-
-        }
-
-        .map-container {
-            width: 40vw;
-            position: fixed;
-            right: 0;
-
-            #map {
-                height: 100vh;
-
-                .marker {
-                    background-color: black;
-                    border-radius: 50%;
-                    height: 50px;
-                    width: 50px;
-                    padding: 10px;
-
-                    .icon {
-                        color: white;
-                        font-size: 1.3rem;
-                        padding: 14px;
-                    }
-                }
-
-            }
-        }
     }
 
 }

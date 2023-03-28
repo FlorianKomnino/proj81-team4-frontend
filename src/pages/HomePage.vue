@@ -86,7 +86,9 @@ export default {
             </div>
         </div>
     </div>
-    <MapTomtom />
+    <section id="advanced-research">
+        <MapTomtom />
+    </section>
 </template>
 
 <style lang="scss" scoped>
