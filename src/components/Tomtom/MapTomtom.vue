@@ -354,8 +354,6 @@ hr {
 
 .main-container {
 
-    position: fixed;
-
     #searchbar{
         width: 500px;
     }
