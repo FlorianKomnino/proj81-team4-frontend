@@ -11,6 +11,7 @@ export default {
     },
     props: {
         apartment: Object,
+        image: String
     },
     methods: {
     initialMap() {
@@ -40,7 +41,8 @@ export default {
             <h2>{{apartment.title}}</h2>
             <h6>{{apartment.address}}</h6>
             <div class="img-wrapper col-12">
-                <img :src="imageBaseURL+'storage/'+apartment.image" alt="" class='rounded mx-auto d-block'>
+                <img v-if="image.startsWith('http')" :src="image" class="rounded mx-auto d-block" alt="image">
+                <img v-else :src="imageBaseURL+'storage/'+image"  class='rounded mx-auto d-block' alt="image">
             </div>
         <div class='mt-5 col-8'></div>
             <span> Numero di stanze: {{apartment.rooms}} &#8226;</span>
