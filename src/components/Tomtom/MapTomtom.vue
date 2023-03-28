@@ -289,34 +289,37 @@ export default {
 <template lang="">
     <hr class="m-0 mb-3">
     <div class="main-container ps-3">
-        <div class="searchbar-container mb-4">
+        <div class="searchbar-container container-lg mb-4">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
             <form class="row align-items-center justify-content-evenly" @keyup.enter="getApartments">
-                <div class="col-5 d-flex align-items-center">
-                    <label class="me-2">Inserisci una città:</label>
-                    <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
-                    <div id="searchbar" class="mb-2"></div>
-                </div>
-                <div class="col-5 d-flex align-items-center">
-                    <label class="me-2">Inserisci un raggio (km):</label>
-                    <input @keyup="addParamsToLocation" type="number" v-model="radius">
-                </div>
-                <div class="row justify-content-evenly col-12">
-                    <div class="col-2">
-                        <label for="rooms"> n° Stanze</label>
-                        <input @keyup="addParamsToLocation" type="number" class="form-control" v-model="rooms">
+                <div class="col-12 col-lg-6 row align-items-center">
+                    <label class="col-12">Inserisci una città:</label>
+                    <div id="searchbar" class="mb-2 col-12">
+                        <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
                     </div>
-                    <div class="col-2">
-                        <label for="beds"> n° Letti</label>
-                        <input @keyup="addParamsToLocation" type="number" class="form-control" v-model="beds">
+                </div>
+                <div class="col-12 col-lg-6 row align-items-center my-3">
+                    <label class="col-12">Inserisci un raggio (km):</label>
+                    <div class="distance-wrapper col-12">
+                        <input @keyup="addParamsToLocation" class="form-control col-12" v-model="radius">
                     </div>
-                    <div class="col-8 checkboxes-container d-flex justify-content-evenly align-items-center">
-                        <label v-for="(service, index) in services" :for="service">
+                </div>
+                    <div class="beds-rooms row col-12 col-lg-6">
+                        <div class="col-6 my-3">
+                            <label for="rooms"> n° Stanze</label>
+                            <input @keyup="addParamsToLocation" class="form-control" v-model="rooms">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label for="beds"> n° Letti</label>
+                            <input @keyup="addParamsToLocation" class="form-control" v-model="beds">
+                        </div>
+                    </div>
+                    <div class="row col-12 col-lg-6 checkboxes-container justify-content-evenly align-items-center">
+                        <label class="col-12" v-for="(service, index) in services" :for="service">
                             <input :value="index+1" :id="service" type="checkbox" @click="addParamsToLocation" v-model="servicesRequired">
                             {{service}}
                         </label>
                     </div>
-                </div>
             </form>
             <div class="col-12 mt-3">
                     <p v-if="locationQuery">
@@ -324,16 +327,14 @@ export default {
                     </p>
                 </div>
         </div>
-        <div class="map-wrapper">
-            <div class="row cards-map-container justify-content-between">
-                <div class="col-8 row justify-content-between" v-if="apartmentsToShow">
-                    <div class="col-4" v-for="apartment in apartmentsToShow">
-                        <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
-                    </div>
+        <div class="row cards-map-container justify-content-between">
+            <div class="col-12 col-lg-6 col-xl-8 row justify-content-between" v-if="apartmentsToShow">
+                <div class="col-12 col-md-6 col-xl-4 col-xxl-3" v-for="apartment in apartmentsToShow">
+                    <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                 </div>
-                <div class="map-container col-4">
-                    <div id="map" class="map"></div>
-                </div>
+            </div>
+            <div class="map-container d-none d-lg-block col-6 col-xl-4">
+                <div id="map" class="map"></div>
             </div>
         </div>
     </div>
@@ -347,23 +348,18 @@ hr {
     border-top: 1px solid lightgray;
 }
 
+
 .main-container {
 
-    #searchbar{
-        width: 500px;
-    }
-
-    .map-wrapper{
+    .map-container{
         position: relative;
-        .map-container{
-            position: relative;
-            #map{
-                position: sticky;
-                height: calc(100vh - 95px);
-                top: 95px;
-            }
+        #map{
+            position: sticky;
+            height: calc(100vh - 95px);
+            top: 95px;
         }
     }
+
 
 
 
