@@ -42,6 +42,8 @@ export default {
             apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
+
+            hasCards: false,
         }
     },
     methods: {
@@ -117,10 +119,12 @@ export default {
                                         this.foundApartments.forEach((positionApartment) => {
                                             this.initialApartments.forEach((filteredApartment) => {
                                                 if (filteredApartment.id == positionApartment.position.id) {
+                                                    filteredApartment.distance = positionApartment.distance
                                                     this.apartmentsToShow.push(filteredApartment)
                                                 }
                                             })
                                         });
+                                        this.hasCards = true
                                     })
                                     map.addControl(new tt.FullscreenControl());
                                     map.addControl(new tt.NavigationControl());
@@ -132,8 +136,6 @@ export default {
                                 .finally(function () {
                                 });
                         })
-
-
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -328,7 +330,7 @@ export default {
                     </p>
                     <div class="row g-4 align-items-stretch" >
                         <div class="col-4" v-for="apartment in apartmentsToShow">
-                            <ApartmentCard :title="apartment.title" :image="apartment.image" :rooms="apartment.rooms" :beds="apartment.beds" :address="apartment.address" :apartment='apartment'/>
+                            <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                         </div>
                     </div>
                 </div>
