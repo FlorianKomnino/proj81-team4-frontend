@@ -35,10 +35,10 @@ export default {
             </div>
             <div class="content">
                 <h5>{{apartment.title}}</h5>
-                <p>Indirizzo: {{apartment.address}}</p>
-                <p>Numero di stanze: {{apartment.rooms}}</p>
-                <p>Numero di letti: {{apartment.beds}}</p>
-                <p>distante {{ Math.round(apartment.distance) }}km dal punto richiesto</p>
+                <p><span class="brand-color-span">Indirizzo:</span>  {{apartment.address}}</p>
+                <p><span class="brand-color-span">Numero di stanze:</span>  {{apartment.rooms}}</p>
+                <p><span class="brand-color-span">Numero di letti:</span>  {{apartment.beds}}</p>
+                <p><span class="brand-color-span">distante</span>  {{ Math.round(apartment.distance) }}km dal punto richiesto</p>
             </div>
             <div class="show-element align-self-center">
                 <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
@@ -58,13 +58,18 @@ export default {
         background-color: white;
         transition: all .6s;
         .img-wrapper{
+            position: relative;
             height: 240px;
             width: 100%;
             text-align: center;
             overflow: hidden;
             img{
-                width: 100%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
                 min-height: 240px;
+                min-width: 300px;
             }
         }
 
