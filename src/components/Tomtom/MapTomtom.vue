@@ -289,7 +289,7 @@ export default {
 <template lang="">
     <hr class="m-0 mb-3">
     <div class="main-container ps-3">
-        <div class="searchbar-container container-lg mb-4">
+        <div class="searchbar-container container-fluid mb-4">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
             <form class="row align-items-center justify-content-evenly" @keyup.enter="getApartments">
                 <div class="col-12 col-lg-6 row align-items-center">
@@ -348,6 +348,10 @@ hr {
     border-top: 1px solid lightgray;
 }
 
+form{
+    max-width: 1140px;
+}
+
 
 .main-container {
 
@@ -359,9 +363,5 @@ hr {
             top: 95px;
         }
     }
-
-
-
-
 }
 </style>
