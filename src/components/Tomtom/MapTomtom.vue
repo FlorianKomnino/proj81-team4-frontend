@@ -326,7 +326,7 @@ export default {
         </div>
         <div class="map-wrapper">
             <div class="row cards-map-container justify-content-between">
-                <div class="col-8 row" v-if="apartmentsToShow">
+                <div class="col-8 row justify-content-between" v-if="apartmentsToShow">
                     <div class="col-4" v-for="apartment in apartmentsToShow">
                         <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                     </div>
