@@ -7,7 +7,7 @@ export default {
 <template lang="">
     <div id="header-container" class="container-fluid">
         <div class="row justify-content-between align-items-center">
-            <div class="col-3 img-wrapper">
+            <div class="img-wrapper">
                 <img src="../assets/imgs/Boolbnb_md_logo.png" class="p-0" alt="Boolbnb logo">
             </div>
             <div class="col-3 justify-content-end d-flex">
@@ -31,6 +31,7 @@ export default {
         height: 100%;
         .img-wrapper{
             height: 100%;
+            width: 300px;
             img{
                 height: 100%;
             }

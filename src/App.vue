@@ -38,7 +38,7 @@ header{
 }
 
 main{
-  margin-top: 95px;
+  margin-top: 125px;
   position: relative;
 
 .logo:hover {
