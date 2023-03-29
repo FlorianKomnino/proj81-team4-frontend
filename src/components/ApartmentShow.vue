@@ -47,7 +47,16 @@ export default {
                 name: this.formData['name'],
             };
             axios.post(this.messageBaseUrl, innerFormData)
-                    .then((response) => {
+            .then( (response) => {
+                console.log(response);
+                this.$toast.success(`Messaggio inviato con successo`);
+            })
+            .catch((error) => {
+                console.log(error);
+                this.$toast.error(`Messaggio non inviato`);
+            })
+        },
+        /*.then((response) => {
                     console.log(response);
                     this.success = response.data.success;
                     if (this.success) {
@@ -56,18 +65,8 @@ export default {
                         this.errors = response.data.errors;
                         console.warn(this.errors);
                         this.$toast.error(`Messaggio non inviato`);
-                    }
-                })
-        },
+                    }*/
 
-                    /*.then(function (response) {
-                console.log(response);
-                innerToast.success(`Messaggio inviato con successo`);
-            })
-            .catch(function (error) {
-                console.log(error);
-                innerToast.error(`Messaggio non inviato`);
-            })*/
         /*
         *
         * return: void 
