@@ -1,6 +1,7 @@
 <script>
 import tt from '@tomtom-international/web-sdk-maps'
 import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -45,7 +46,6 @@ export default {
                 apartment_id: this.formData['apartmentId'],
                 name: this.formData['name'],
             };
-            const innerToast = $toast;
             axios.post(this.messageBaseUrl, innerFormData)
                     .then((response) => {
                     console.log(response);
