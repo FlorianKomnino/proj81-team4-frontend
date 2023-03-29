@@ -167,16 +167,23 @@ export default {
 
                 .my-button{
                     position: absolute;
-                    height: 44px;
-                    width: 80px;
                     text-decoration: none;
                     text-align: center;
                     line-height: 2.5rem;
                     background-color: $main-bg-color;
                     color: white;
-                    z-index: 1;
-                    right: 12px;
-                    top: 12px;
+                    top: 65px;
+                    left: 12px;
+                    height: 44px;
+                    width: calc(100% - 24px);
+                    
+                    @media screen and (min-width: 576px) {
+                        height: 44px;
+                        width: 80px;
+                        z-index: 1;
+                        left: calc(100% - 92px);
+                        top: 12px;
+                    }
                 }
             }
         }
