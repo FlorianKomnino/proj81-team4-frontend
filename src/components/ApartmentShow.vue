@@ -45,18 +45,29 @@ export default {
                 apartment_id: this.formData['apartmentId'],
                 name: this.formData['name'],
             };
+            const innerToast = $toast;
             axios.post(this.messageBaseUrl, innerFormData)
-                .then((response) => {
+                    .then((response) => {
                     console.log(response);
                     this.success = response.data.success;
                     if (this.success) {
+                        this.$toast.success(`Messaggio inviato con successo`);
                     } else {
                         this.errors = response.data.errors;
                         console.warn(this.errors);
+                        this.$toast.error(`Messaggio non inviato`);
                     }
                 })
         },
 
+                    /*.then(function (response) {
+                console.log(response);
+                innerToast.success(`Messaggio inviato con successo`);
+            })
+            .catch(function (error) {
+                console.log(error);
+                innerToast.error(`Messaggio non inviato`);
+            })*/
         /*
         *
         * return: void 
