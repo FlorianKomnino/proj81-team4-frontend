@@ -11,13 +11,16 @@ export default {
             latitude: 0,
             userMessage: '',
             userEmail: '',
+            apartmentId: '',
+            userName: '',
+            formData: {},
         }
     },
     props: {
         apartment: Object,
     },
     methods: {
-    initialMap() {
+        initialMap() {
             //const iconMarker = document.getElementById('marker'); 
             const map = tt.map({
                 key: "LtoGeaeU7ePCG0fjKosxHXMarjmLep0U",
@@ -34,33 +37,60 @@ export default {
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
         },
-    sendMessage(id){
-        axios.post(this.messageBaseUrl, {
-            params: {
-                email: this.userEmail,
-                message: this.userMessage,
-                //apartmentId: id,
-            }
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-        .finally(function () {
-            // always executed
-        }); 
-    }
+        sendMessage() {
+            const innerFormData = {
+                text_content: this.formData['userMessage'],
+                email: this.formData['userEmail'],
+                apartment_id: this.formData['apartmentId'],
+                name: this.formData['name'],
+            };
+            axios.post(this.messageBaseUrl, innerFormData)
+                .then((response) => {
+                    console.log(response);
+                    this.success = response.data.success;
+                    if (this.success) {
+                    } else {
+                        this.errors = response.data.errors;
+                        console.warn(this.errors);
+                    }
+                })
+        },
+
+        /*
+        *
+        * return: void 
+        * 
+        */
+        getApartmentId() {
+            this.apartmentId = document.getElementById('apartmentId').value;
+            console.log(this.apartmentId);
+        },
+        getFormData() {
+            this.formData['userMessage'] = this.userMessage;
+            this.formData['userEmail'] = this.userEmail;
+            this.formData['apartmentId'] = this.apartmentId;
+            this.formData['name'] = this.userName;
+
+            console.log(this.formData);
+        },
+        getAndSendFormData() {
+            this.getApartmentId();
+            this.getFormData();
+            this.sendMessage();
+        }
+
     },
     mounted() {
-        this.initialMap()        
+        this.initialMap();
+        this.getApartmentId();
+        this.getFormData();
     }
 }
 </script>
 <template lang="">
     <div class='container'>
         <div class='col-12'>
+            <input type="text" name="apartmentId" class="d-none" :value="apartment.id" id="apartmentId">
             <h2>{{apartment.title}}</h2>
             <h6>{{apartment.address}}</h6>
             <div class="img-wrapper col-12">
@@ -83,7 +113,9 @@ export default {
             <textarea name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
             <label for="">Inserisci la tua email</label>
             <input type="email" v-model="userEmail">
-            <button @click="sendMessage">
+            <label for="">Inserisci il tuo nome</label>
+            <input type="text" v-model="userName">
+            <button @click="getAndSendFormData">
                 invia il messaggio
             </button>
         </div>
@@ -91,26 +123,30 @@ export default {
 </template>
 <style lang="scss">
 @use "../styles/general.scss" as *;
-#map{
+
+#map {
     height: 400px;
     width: 100%;
-    #marker{
-            background-color: $main-bg-color;
-            border-radius: 50%;
-            height: 48px;
-            width: 48px;
-            color: white;
-            .marker-icon{
-                height: 22px;
-                width: 22px;
-            }
+
+    #marker {
+        background-color: $main-bg-color;
+        border-radius: 50%;
+        height: 48px;
+        width: 48px;
+        color: white;
+
+        .marker-icon {
+            height: 22px;
+            width: 22px;
+        }
     }
 }
-img{
-        width: 100%;
-    }
 
-.messageContainer{
+img {
+    width: 100%;
+}
+
+.messageContainer {
     height: 1000px;
     border: 1px solid black;
 }
