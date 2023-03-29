@@ -1,9 +1,12 @@
 <script>
+//import { BDropdown } from 'bootstrap-vue'
+//import { BDropdownItem } from 'bootstrap-vue'
 export default {
     name: 'HeaderComponent',
     data() {
         return {
-            
+            // BDropdown,
+            // BDropdownItem
         }
     },
     methods: {
@@ -22,13 +25,17 @@ export default {
                 <img src="../assets/imgs/Boolbnb_md_logo-transformed.svg" class="p-0" alt="Boolbnb logo">
                 </router-link>
             </div>
-            <div class="access-buttons col-3 justify-content-end d-flex">
-                <a href="http://127.0.0.1:8000/login">
-                    Accedi
-                </a>
-                <a class="mx-2" href="http://127.0.0.1:8000/register">
-                    Registrati
-                </a>
+            <div class="access-buttons col justify-content-end d-flex">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle d-sm-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <font-awesome-icon :icon="['fas', 'bars']" class="dropdown-icon"/>
+                    </button>
+                </div>
+                <div class="smartphone-menu d-none">
+
+                </div>
+                <a class="d-none d-sm-block" href="http://127.0.0.1:8000/login">Accedi</a>
+                <a class="mx-2 d-none d-sm-block" href="http://127.0.0.1:8000/register">Registrati</a>
             </div>
         </div>
     </div>
@@ -61,6 +68,23 @@ export default {
     }
 
     .access-buttons{
+        width: 100px;
+        .dropdown-icon{
+            color: $main-bg-color;
+            font-size: 3rem;
+        }
+
+        .smartphone-menu{
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: -220px;
+            border-left: 2px solid $main-bg-color;
+            background-color: #ebdbdfdd;
+        }
+
+
         a {
             background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
             background-size: 190%;
