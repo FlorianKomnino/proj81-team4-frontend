@@ -286,11 +286,10 @@ export default {
 </script>
 
 <template lang="">
-    <hr class="m-0 mb-3">
-    <div class="main-container ps-3">
+    <div class="main-container pt-4 ps-3">
         <div class="searchbar-container container-fluid mb-4">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
-            <form class="row align-items-center justify-content-evenly" @keyup.enter="getApartments">
+            <form class="row align-items-center" @keyup.enter="getApartments">
                 <div class="col-12 col-lg-6 row align-items-center">
                     <label class="col-12">Inserisci una città:</label>
                     <div id="searchbar" class="mb-2 col-12">
@@ -327,7 +326,7 @@ export default {
                 </div>
         </div>
         <div class="row cards-map-container justify-content-between">
-            <div class="col-12 col-lg-6 col-xl-8 row justify-content-between" v-if="apartmentsToShow">
+            <div class="col-12 col-lg-6 col-xl-8 row cards-container justify-content-between" v-if="apartmentsToShow">
                 <div class="col-12 col-md-6 col-xl-4" v-for="apartment in apartmentsToShow">
                     <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                 </div>
@@ -341,25 +340,18 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../styles/general.scss" as *;
-
-hr {
-    border: 0;
-    border-top: 1px solid lightgray;
-}
-
 form{
     max-width: 1140px;
 }
-
-
 .main-container {
-
     .map-container{
         position: relative;
         #map{
             position: sticky;
             height: calc(100vh - 95px);
             top: 95px;
+            box-shadow: -14px -14px 28px #cecece,
+            14px 14px 28px #f2f2f2;
         }
     }
 }
