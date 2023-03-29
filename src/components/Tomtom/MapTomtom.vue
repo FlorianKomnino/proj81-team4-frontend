@@ -288,60 +288,56 @@ export default {
 
 <template lang="">
     <hr class="m-0 mb-3">
-    <div class="main-container">
-        <div class="container-fluid search-bar-container">
+    <div class="main-container ps-3">
+        <div class="searchbar-container container-fluid mb-4">
             <!-- <SearchBarTomtom @location="getHouses"/> -->
-            <div class="form-container input-group mb-3">
-                <form class="row align-items-center" @keyup.enter="getApartments">
-                    <div class="col-6 d-flex me-2 d-flex align-items-center search-wrapper">
-                        <label class="text-nowrap me-2">Inserisci una città:</label>
-                        <input id="address" name="address" @keyup="addParamsToLocation" type="text" class="form-control shadow-none d-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
-                        placeholder="Search" v-model="locationQuery">
-                        <div id="searchbar" class="mb-2"></div>
+            <form class="row align-items-center justify-content-evenly" @keyup.enter="getApartments">
+                <div class="col-12 col-lg-6 row align-items-center">
+                    <label class="col-12">Inserisci una città:</label>
+                    <div id="searchbar" class="mb-2 col-12">
+                        <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
                     </div>
-                    <div class="col-5 d-flex d-flex align-items-center me-2">
-                        <label class="text-nowrap me-2">Inserisci un raggio (km):</label>
-                        <input @keyup="addParamsToLocation" type="number" class="form-control shadow-none" v-model="radius">
+                </div>
+                <div class="col-12 col-lg-6 row align-items-center my-3">
+                    <label class="col-12">Inserisci un raggio (km):</label>
+                    <div class="distance-wrapper col-12">
+                        <input @keyup="addParamsToLocation" class="form-control col-12" v-model="radius">
                     </div>
-                    <div class="row h-100 col-4 mt-3">
-                        <div class="col-6">
+                </div>
+                    <div class="beds-rooms row col-12 col-lg-6">
+                        <div class="col-6 my-3">
                             <label for="rooms"> n° Stanze</label>
-                            <input @keyup="addParamsToLocation" type="number" class="form-control d-inline" v-model="rooms">
+                            <input @keyup="addParamsToLocation" class="form-control" v-model="rooms">
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 my-3">
                             <label for="beds"> n° Letti</label>
-                            <input @keyup="addParamsToLocation" type="number" class="form-control d-inline" v-model="beds">
+                            <input @keyup="addParamsToLocation" class="form-control" v-model="beds">
                         </div>
                     </div>
-                    <div class="col-8 h-100 checkboxes-container d-flex justify-content-evenly align-items-center">
-                        <label v-for="(service, index) in services" :for="service">
+                    <div class="row col-12 col-lg-6 checkboxes-container justify-content-evenly align-items-center">
+                        <label class="col-12" v-for="(service, index) in services" :for="service">
                             <input :value="index+1" :id="service" type="checkbox" @click="addParamsToLocation" v-model="servicesRequired">
                             {{service}}
                         </label>
                     </div>
-                </form>
-            </div>
-        </div>
-        <div class="container-fluid pe-0">
-            <div class="d-flex cards-map-container">
-                <div class="card-container pe-4" v-if="apartmentsToShow">
+            </form>
+            <div class="col-12 mt-3">
                     <p v-if="locationQuery">
                         Abbiamo trovato {{apartmentsToShow.length}} alloggi in questa località: {{locationQuery}}
                     </p>
-                    <div class="row g-4 align-items-stretch" >
-                        <div class="col-4" v-for="apartment in apartmentsToShow">
-                            <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
-                        </div>
-                    </div>
                 </div>
-                <div class="map-container">
-                    <div id="map" class="map"></div>
+        </div>
+        <div class="row cards-map-container justify-content-between">
+            <div class="col-12 col-lg-6 col-xl-8 row justify-content-between" v-if="apartmentsToShow">
+                <div class="col-12 col-md-6 col-xl-4 col-xxl-3" v-for="apartment in apartmentsToShow">
+                    <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                 </div>
+            </div>
+            <div class="map-container d-none d-lg-block col-6 col-xl-4">
+                <div id="map" class="map"></div>
             </div>
         </div>
     </div>
-        
-    
 </template>
 
 <style lang="scss" scoped>
@@ -352,49 +348,20 @@ hr {
     border-top: 1px solid lightgray;
 }
 
+form{
+    max-width: 1140px;
+}
+
+
 .main-container {
 
-    position: fixed;
-
-    #searchbar{
-        width: 500px;
-    }
-
-    .cards-map-container {
-        height: 86vh;
-        overflow-y: scroll;
-
-
-        .card-container {
-            width: 60vw;
-
-        }
-
-        .map-container {
-            width: 40vw;
-            position: fixed;
-            right: 0;
-
-            #map {
-                height: 100vh;
-
-                .marker {
-                    background-color: black;
-                    border-radius: 50%;
-                    height: 50px;
-                    width: 50px;
-                    padding: 10px;
-
-                    .icon {
-                        color: white;
-                        font-size: 1.3rem;
-                        padding: 14px;
-                    }
-                }
-
-            }
+    .map-container{
+        position: relative;
+        #map{
+            position: sticky;
+            height: calc(100vh - 95px);
+            top: 95px;
         }
     }
-
 }
 </style>

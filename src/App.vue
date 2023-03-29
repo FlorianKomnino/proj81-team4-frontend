@@ -26,8 +26,19 @@ export default {
 <style lang="scss">
 @use "./styles/general.scss" as *;
 
+header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 95px;
+  z-index: 5;
+  background-color: white;
+  border-bottom: 1px solid $main-bg-color;
+}
+
 main{
-  padding-top: 8vh;
+  margin-top: 125px;
   position: relative;
 
 .logo:hover {

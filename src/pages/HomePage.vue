@@ -79,14 +79,18 @@ export default {
 </script>
 
 <template lang="">
-    <div class="container mt-2">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-12 d-flex justify-content-between">
                 <IconCard v-for="icon in icons" :iconArgument="icon.title" :faIconString="icon.icon"/>
             </div>
         </div>
-    </div>
-    <MapTomtom />
+    </div> -->
+    <section id="advanced-research">
+        <MapTomtom />
+    </section>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>

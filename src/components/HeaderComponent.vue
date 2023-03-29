@@ -5,10 +5,10 @@ export default {
 </script>
 
 <template lang="">
-    <div class="container-fluid header-container">
-        <div class="row justify-content-between align-items-center h-100">
-            <div class="col-3 h-100 p-0">
-                <img src="../assets/imgs/Boolbnb_md_logo.png" class="img-fluid logo p-0" alt="Boolbnb logo">
+    <div id="header-container" class="container-fluid">
+        <div class="row justify-content-between align-items-center">
+            <div class="img-wrapper">
+                <img src="../assets/imgs/Boolbnb_md_logo.png" class="p-0" alt="Boolbnb logo">
             </div>
             <div class="col-3 justify-content-end d-flex">
                 <a href="http://127.0.0.1:8000/login">
@@ -23,11 +23,21 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.header-container {
-    height: 8vh;
-    z-index: 2;
-    left: 0;
-    top: 0;
+
+#header-container {
+    height: 100%;
+
+    .row{
+        height: 100%;
+        .img-wrapper{
+            height: 100%;
+            width: 300px;
+            img{
+                height: 100%;
+            }
+        }
+    }
+
 
     a {
         background-color: white;
@@ -35,7 +45,6 @@ export default {
         border: 1.5px solid transparent;
         text-decoration: none;
         color: black;
-        margin: 1rem;
 
         &:hover {
             border: 1.5px solid black;
@@ -45,8 +54,6 @@ export default {
     }
 
     .logo {
-        width: 100%;
-        height: 120px;
         transform: scale(0.5);
     }
 }
