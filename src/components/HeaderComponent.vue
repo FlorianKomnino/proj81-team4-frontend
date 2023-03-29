@@ -18,7 +18,7 @@ export default {
     <div id="header-container" class="container-fluid">
         <div class="row justify-content-between align-items-center">
             <div class="img-wrapper">
-                <router-link :to="'./'" class="logo-redirect">
+                <router-link to="/" class="logo-redirect">
                 <img src="../assets/imgs/Boolbnb_md_logo-transformed.svg" class="p-0" alt="Boolbnb logo">
                 </router-link>
             </div>
