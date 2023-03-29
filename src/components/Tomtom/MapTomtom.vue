@@ -225,7 +225,6 @@ export default {
             }
         },
         autocompleteAddress(){
-            console.log('ciao')
             const option = {
                 idleTimePress: 100,
                 minNumberOfCharacters: 0,
@@ -252,12 +251,12 @@ export default {
             ttSearchBox.on("tomtom.searchbox.resultselected", this.handleResultSelection);
 
             icon.addEventListener('click', function () {
-            if (oldInput) {
-                this.locationQuery = oldInput
-            } else {
-                this.locationQuery = ''
-            }
-        })
+                if (oldInput) {
+                    this.locationQuery = oldInput
+                } else {
+                    this.locationQuery = ''
+                }
+            })
         },
         handleResultSelection(event) {
             // if you click the "X" on the search bar the handleResultSelection's result will be null and the input will have the old value
