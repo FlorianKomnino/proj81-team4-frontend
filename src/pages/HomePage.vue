@@ -89,13 +89,8 @@ export default {
                 <IconCard v-for="icon in icons" :iconArgument="icon.title" :faIconString="icon.icon"/>
             </div>
         </div>
-<<<<<<< HEAD
-    </div> -->
-    <section id="advanced-research">
-        <MapTomtom />
-    </section>
-=======
     </div>
+    <a :href="'http://localhost:5174/search?where='+locationQuery" class="btn btn-primary">Cerca</a> -->
     <div class="main-container">
         <div class="container-fluid search-bar-container">
             <div class="form-container mb-3">
@@ -106,7 +101,6 @@ export default {
                         placeholder="Search" v-model="locationQuery">
                     </div>
                     <div>
-                        <!-- <a :href="'http://localhost:5174/search?where='+locationQuery" class="btn btn-primary">Cerca</a> -->
                         <router-link :to="{ name: 'search', query: { where: locationQuery } }" class="btn btn-primary">Cerca
                         </router-link>
                     </div>
@@ -114,9 +108,6 @@ export default {
             </div>
         </div>
     </div>
->>>>>>> home-page
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
