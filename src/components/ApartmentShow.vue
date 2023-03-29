@@ -1,6 +1,7 @@
 <script>
 import tt from '@tomtom-international/web-sdk-maps'
 import axios from 'axios'
+
 export default {
     data() {
         return {
@@ -46,16 +47,25 @@ export default {
                 name: this.formData['name'],
             };
             axios.post(this.messageBaseUrl, innerFormData)
-                .then((response) => {
+            .then( (response) => {
+                console.log(response);
+                this.$toast.success(`Messaggio inviato con successo`);
+            })
+            .catch((error) => {
+                console.log(error);
+                this.$toast.error(`Messaggio non inviato`);
+            })
+        },
+        /*.then((response) => {
                     console.log(response);
                     this.success = response.data.success;
                     if (this.success) {
+                        this.$toast.success(`Messaggio inviato con successo`);
                     } else {
                         this.errors = response.data.errors;
                         console.warn(this.errors);
-                    }
-                })
-        },
+                        this.$toast.error(`Messaggio non inviato`);
+                    }*/
 
         /*
         *
