@@ -134,6 +134,13 @@ export default {
                     <span> Numero di bagni: {{apartment.bathrooms}}</span>
                 </p>
                 <hr>
+                <div class='mt-4'>
+                    <h3>Cosa troverai</h3>
+                    <p v-for="service in apartment.services">
+                        <font-awesome-icon :icon="service.icon" />
+                        {{service.name}}                
+                    </p>
+                </div>
             </div>
             <div class="col-4 offset-1">
                 <div class="messageContainer rounded-3 access-buttons text-center p-5">
@@ -157,13 +164,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class='mt-4'>
-            <h3>Cosa troverai</h3>
-            <p v-for="service in apartment.services">
-                <font-awesome-icon :icon="service.icon" />
-                {{service.name}}                
-            </p>
-        </div>
+
     </div>
 </template>
 <style lang="scss" scoped>
