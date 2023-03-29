@@ -19,14 +19,14 @@ export default {
         <div class="row justify-content-between align-items-center">
             <div class="img-wrapper">
                 <router-link :to="'./'" class="logo-redirect">
-                <img src="../assets/imgs/Boolbnb_md_logo.png" class="p-0" alt="Boolbnb logo">
+                <img src="../assets/imgs/Boolbnb_md_logo-transformed.svg" class="p-0" alt="Boolbnb logo">
                 </router-link>
             </div>
-            <div class="col-3 justify-content-end d-flex">
+            <div class="access-buttons col-3 justify-content-end d-flex">
                 <a href="http://127.0.0.1:8000/login">
                     Accedi
                 </a>
-                <a href="http://127.0.0.1:8000/register">
+                <a class="mx-2" href="http://127.0.0.1:8000/register">
                     Registrati
                 </a>
             </div>
@@ -35,12 +35,17 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import '../styles/partials/colors.scss';
 
 #header-container {
     height: 100%;
 
-    .logo-redirect:hover{
-        border: 1px solid white;
+    .logo-redirect{
+        border: none;
+        background-color: rgba(255, 255, 255, 0);
+        &:hover{
+            border: none;
+        }
     }
 
     .row{
@@ -49,23 +54,29 @@ export default {
             height: 100%;
             width: 300px;
             img{
+                filter: $main-bg-color-filter;
                 height: 100%;
             }
         }
     }
 
-
-    a {
-        background-color: white;
-        padding: 10px;
-        border: 1.5px solid transparent;
-        text-decoration: none;
-        color: black;
-
-        &:hover {
-            border: 1.5px solid black;
+    .access-buttons{
+        a {
+            background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
+            background-size: 190%;
+            width: 110px;
+            padding: 10px;
             border-radius: 30px;
-
+            text-decoration: none;
+            color: $main-bg-color;
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    
+            transition: all .3s;
+    
+            &:hover {
+                color: white;
+                background-position: right;
+            }
         }
     }
 
