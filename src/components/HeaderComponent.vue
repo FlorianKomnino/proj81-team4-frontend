@@ -22,7 +22,7 @@ export default {
                 <img src="../assets/imgs/Boolbnb_md_logo-transformed.svg" class="p-0" alt="Boolbnb logo">
                 </router-link>
             </div>
-            <div class="access-buttons col-3 justify-content-end d-flex">
+            <div class="access-buttons col justify-content-end d-flex">
                 <a href="http://127.0.0.1:8000/login">
                     Accedi
                 </a>
@@ -64,11 +64,12 @@ export default {
         a {
             background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
             background-size: 190%;
-            width: 110px;
+            width: 100px;
             padding: 10px;
             border-radius: 30px;
             text-decoration: none;
             color: $main-bg-color;
+            width: 110px;
             box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     
             transition: all .3s;
