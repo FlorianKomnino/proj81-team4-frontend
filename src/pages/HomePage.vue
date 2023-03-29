@@ -146,7 +146,7 @@ export default {
 
 <style lang="scss" scoped>
 
-$main-bg-color: rgb(255,55,92);
+@import "../styles/partials/colors.scss";
 
 #jumbotron{
     height: 360px;

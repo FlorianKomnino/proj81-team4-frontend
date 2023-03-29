@@ -1,8 +1,7 @@
 @import "bootstrap/scss/bootstrap.scss";
 @import "@tomtom-international/web-sdk-maps";
 @import "../../node_modules/@tomtom-international/web-sdk-plugin-searchbox/dist/SearchBox.css";
-
-$main-bg-color: rgb(255,55,92);
+@import "./partials/colors.scss";
 
 @mixin standard-button {
     background-color: $main-bg-color;
