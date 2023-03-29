@@ -10,9 +10,18 @@ export default {
         }
     },
     methods: {
-        goToHome(){
+        goToHome() {
             this.$router.push('')
-        }
+        },
+
+        smartphoneMenuToggle() {
+            let menuElement = document.getElementById('submit-menu');
+            if (menuElement.classList.contains('visible-class')) {
+                menuElement.classList.remove('visible-class');
+            } else {
+                menuElement.classList.add('visible-class');
+            }
+        },
     },
 }
 </script>
@@ -26,12 +35,14 @@ export default {
                 </router-link>
             </div>
             <div class="access-buttons col justify-content-end d-flex">
-                <div class="dropdown">
-                    <button class="btn dropdown-toggle d-sm-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <font-awesome-icon :icon="['fas', 'bars']" class="dropdown-icon"/>
-                    </button>
+
+                <div>
+                    <div class="btn d-sm-none" id="custom-menu-button" @click="smartphoneMenuToggle">
+                        <font-awesome-icon :icon="['fas', 'bars']" class="custom-dropdown-icon"/>
+                    </div>
                 </div>
-                <div class="smartphone-menu d-none">
+                <div class="smartphone-menu d-sm-none" id="submit-menu">
+
 
                 </div>
                 <a class="d-none d-sm-block" href="http://127.0.0.1:8000/login">Accedi</a>
@@ -47,41 +58,57 @@ export default {
 #header-container {
     height: 100%;
 
-    .logo-redirect{
+    .logo-redirect {
         border: none;
         background-color: rgba(255, 255, 255, 0);
-        &:hover{
+
+        &:hover {
             border: none;
         }
     }
 
-    .row{
+    .row {
         height: 100%;
-        .img-wrapper{
+
+        .img-wrapper {
             height: 100%;
             width: 300px;
-            img{
+
+            img {
                 filter: $main-bg-color-filter;
                 height: 100%;
             }
         }
     }
 
-    .access-buttons{
+    .access-buttons {
         width: 100px;
-        .dropdown-icon{
+
+        #custom-menu-button {
+            position: relative;
+            z-index: 2;
+        }
+
+        .custom-dropdown-icon {
             color: $main-bg-color;
             font-size: 3rem;
         }
 
-        .smartphone-menu{
+        .smartphone-menu {
+            z-index: 0;
             position: fixed;
             top: 0;
-            right: 0;
+            right: -220px;
             height: 100vh;
-            width: -220px;
+            width: 220px;
             border-left: 2px solid $main-bg-color;
             background-color: #ebdbdfdd;
+            transition: all 0.4s;
+
+        }
+
+        .visible-class {
+            right: 0;
         }
 
 
@@ -94,9 +121,9 @@ export default {
             text-decoration: none;
             color: $main-bg-color;
             box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
-    
+
             transition: all .3s;
-    
+
             &:hover {
                 color: white;
                 background-position: right;
