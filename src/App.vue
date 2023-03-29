@@ -35,10 +35,12 @@ header{
   z-index: 5;
   background-color: white;
   border-bottom: 1px solid $main-bg-color;
+
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 14px 28px, rgba(0, 0, 0, 0.12) 0px 10px 10px;
 }
 
 main{
-  margin-top: 125px;
+  margin-top: 95px;
   position: relative;
 
 .logo:hover {

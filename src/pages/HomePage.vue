@@ -130,23 +130,56 @@ export default {
 
 <template lang="">
     <div class="main-container">
-        <div class="container-fluid search-bar-container">
-            <div class="form-container mb-3">
-                <form class="row">
-                    <div class="col-6 d-flex align-items-center search-wrapper">
-                        <label class="text-nowrap me-2">Inserisci una città:</label>
-                        <div id="searchbar">
-                            <input id="address" name="address" type="text" class="form-control d-none shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Search" v-model="locationQuery">
-                        </div>
-                    </div>
-                    <div>
-                        <router-link :to="{ name: 'search', query: { where: locationQuery } }" class="btn btn-primary">Cerca
+        <section id="jumbotron">
+            <div class="container-fluid search-bar-container">
+                <form class="row align-items-center justify-content-center">
+                    <div id="searchbar" class="col-7">
+                        <input id="address" name="address" type="text" class="form-control d-none shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Search" v-model="locationQuery">
+                        <router-link :to="{ name: 'search', query: { where: locationQuery } }" class="my-button">Cerca
                         </router-link>
                     </div>
                 </form>
             </div>
-        </div>
+        </section>
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+$main-bg-color: rgb(255,55,92);
+
+#jumbotron{
+    height: 360px;
+    width: 100%;
+    background-image: url(https://www.modulnova.it/foto/living/5cac33ee6bb0e201904090555584.jpg);
+    background-size: cover;
+
+    .search-bar-container{
+        height: 100%;
+        width: 100%;
+        background-color: #ffffff70;
+
+        form{
+            height: 100%;
+
+            #searchbar{
+                position: relative;
+
+                .my-button{
+                    position: absolute;
+                    height: 44px;
+                    width: 80px;
+                    text-decoration: none;
+                    text-align: center;
+                    line-height: 2.5rem;
+                    background-color: $main-bg-color;
+                    color: white;
+                    z-index: 1;
+                    right: 12px;
+                    top: 12px;
+                }
+            }
+        }
+    }
+}
+</style>

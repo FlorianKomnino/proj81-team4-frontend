@@ -1,6 +1,16 @@
 <script>
 export default {
-
+    name: 'HeaderComponent',
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+        goToHome(){
+            this.$router.push('')
+        }
+    },
 }
 </script>
 
@@ -8,7 +18,9 @@ export default {
     <div id="header-container" class="container-fluid">
         <div class="row justify-content-between align-items-center">
             <div class="img-wrapper">
+                <router-link :to="'./'" class="logo-redirect">
                 <img src="../assets/imgs/Boolbnb_md_logo.png" class="p-0" alt="Boolbnb logo">
+                </router-link>
             </div>
             <div class="col-3 justify-content-end d-flex">
                 <a href="http://127.0.0.1:8000/login">
@@ -26,6 +38,10 @@ export default {
 
 #header-container {
     height: 100%;
+
+    .logo-redirect:hover{
+        border: 1px solid white;
+    }
 
     .row{
         height: 100%;
