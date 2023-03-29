@@ -42,7 +42,7 @@ export default {
             </div>
             <div class="show-element align-self-center">
                 <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
-                    class="btn btn-primary mt-5">View Apartment
+                    class="show-button">Visualizza
                 </router-link>
             </div>
         </div>
@@ -50,6 +50,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import '../styles/partials/colors.scss';
 .apartment-container{
     height: 100%;
 
@@ -73,8 +74,21 @@ export default {
             }
         }
 
-        &:hover{
-            background-color: #f7f4f4;
+        .show-button {
+            background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 92%, white 92% 100%);
+            background-size: 200%;
+            padding: 10px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: $main-bg-color;
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+            transition: all .3s;
+
+            &:hover {
+                color: white;
+                background-position: right;
+            }
         }
     }
 }
