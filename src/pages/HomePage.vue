@@ -133,7 +133,7 @@ export default {
         <section id="jumbotron">
             <div class="container-fluid search-bar-container">
                 <form class="row align-items-center justify-content-center">
-                    <div id="searchbar" class="col-7">
+                    <div id="searchbar" class="col-9 col-md-7">
                         <input id="address" name="address" type="text" class="form-control d-none shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Search" v-model="locationQuery">
                         <router-link :to="{ name: 'search', query: { where: locationQuery } }" class="my-button">Cerca
                         </router-link>
