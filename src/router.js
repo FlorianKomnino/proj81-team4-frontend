@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import HomePage from './pages/HomePage.vue';
+import AdvancedSearch from './pages/AdvancedSearch.vue';
 import RegistrationForm from './pages/RegistrationForm.vue';
 import UserDashboard from './pages/UserDashboard.vue';
 import LoginForm from './pages/LoginForm.vue';
@@ -17,7 +18,7 @@ const router = createRouter({
         {
             path: '/search/:where?/:radius?/:beds?/:rooms?',
             name: 'search',
-            component: HomePage
+            component: AdvancedSearch
         },
         {
             path: '/registration',
@@ -37,7 +38,7 @@ const router = createRouter({
         {
             path: '/apartment/:slug',
             name: 'apartment',
-            component : SingleApartment
+            component: SingleApartment
         }
     ]
 });

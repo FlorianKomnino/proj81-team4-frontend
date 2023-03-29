@@ -1,11 +1,11 @@
 <script>
+import MapTomtom from '../components/Tomtom/MapTomtom.vue';
 import IconCard from '../components/IconCard.vue';
-
-
 
 export default {
     name: 'HomePage',
     components: {
+        MapTomtom,
         IconCard,
     },
     data() {
@@ -71,52 +71,22 @@ export default {
                     title: 'Preferiti',
                     icon: 'fa-solid fa-heart'
                 },
-            ],
-            locationQuery: ''
+            ]
         }
     },
-    methods: {
-
-    }
 }
 
 </script>
 
 <template lang="">
-    <!-- <div class="container">
+    <div class="container mt-2">
         <div class="row">
-            <div class="col-12 d-flex justify-content-between mb-5">
+            <div class="col-12 d-flex justify-content-between">
                 <IconCard v-for="icon in icons" :iconArgument="icon.title" :faIconString="icon.icon"/>
             </div>
         </div>
-<<<<<<< HEAD
-    </div> -->
-    <section id="advanced-research">
-        <MapTomtom />
-    </section>
-=======
     </div>
-    <div class="main-container">
-        <div class="container-fluid search-bar-container">
-            <div class="form-container mb-3">
-                <form class="row">
-                    <div class="col-6 d-flex d-flex align-items-center search-wrapper">
-                        <label class="text-nowrap me-2">Inserisci una città:</label>
-                        <input id="address" name="address" type="text" class="form-control shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
-                        placeholder="Search" v-model="locationQuery">
-                    </div>
-                    <div>
-                        <!-- <a :href="'http://localhost:5174/search?where='+locationQuery" class="btn btn-primary">Cerca</a> -->
-                        <router-link :to="{ name: 'search', query: { where: locationQuery } }" class="btn btn-primary">Cerca
-                        </router-link>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
->>>>>>> home-page
+    <MapTomtom />
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
