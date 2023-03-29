@@ -42,11 +42,12 @@ export default {
                     </div>
                 </div>
                 <div class="smartphone-menu d-sm-none" id="submit-menu">
-
+                    <a class="smarthponeScreenButtons" href="http://127.0.0.1:8000/login">Accedi</a>
+                    <a class="smarthponeScreenButtons" href="http://127.0.0.1:8000/register">Registrati</a>
 
                 </div>
-                <a class="d-none d-sm-block" href="http://127.0.0.1:8000/login">Accedi</a>
-                <a class="mx-2 d-none d-sm-block" href="http://127.0.0.1:8000/register">Registrati</a>
+                <a class="d-none d-sm-block wideScreenButtons" href="http://127.0.0.1:8000/login">Accedi</a>
+                <a class="mx-2 d-none d-sm-block wideScreenButtons" href="http://127.0.0.1:8000/register">Registrati</a>
             </div>
         </div>
     </div>
@@ -85,9 +86,12 @@ export default {
         width: 100px;
 
         #custom-menu-button {
-            position: relative;
+            position: fixed;
+            top: 15px;
+            right: 10px;
             z-index: 2;
         }
+
 
         .custom-dropdown-icon {
             color: $main-bg-color;
@@ -104,7 +108,25 @@ export default {
             border-left: 2px solid $main-bg-color;
             background-color: #ebdbdfdd;
             transition: all 0.4s;
+            padding-top: 75px;
 
+            .smarthponeScreenButtons {
+                margin-top: 20px;
+                display: block;
+                text-decoration: none;
+                font-size: 1.5rem;
+                color: $main-bg-color;
+                border-bottom: 1px solid $main-bg-color;
+                padding-left: 30px;
+                padding-bottom: 10px;
+
+                &:first-child {
+                    border-top: 1px solid $main-bg-color;
+                    padding-top: 20px;
+
+                }
+
+            }
         }
 
         .visible-class {
@@ -112,7 +134,7 @@ export default {
         }
 
 
-        a {
+        .wideScreenButtons {
             background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
             background-size: 190%;
             width: 100px;
