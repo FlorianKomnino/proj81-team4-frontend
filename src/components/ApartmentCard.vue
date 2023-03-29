@@ -28,8 +28,8 @@ export default {
 
 <template>
     <div class="apartment-container mb-3 py-3">
-        <div class="apartment-card d-flex p-2 rounded rounded-4 flex-column justify-content-between">
-            <div class="img-wrapper rounded rounded-4">
+        <div class="apartment-card d-flex rounded rounded-4 flex-column justify-content-between">
+            <div class="img-wrapper">
                 <img v-if="image.startsWith('http')" :src="image" alt="image">
                 <img v-else :src="imageBaseURL+'storage/'+image" alt="image">
             </div>
@@ -58,10 +58,14 @@ export default {
         height: 100%;
         background-color: white;
         transition: all .6s;
+        border-radius: 25px;
+        background: #fafafa;
+        box-shadow:  -10px 10px 20px #8d8d8d, 10px -10px 20px #ffffff;
         .img-wrapper{
             position: relative;
             height: 240px;
             width: 100%;
+            border-radius: 15px 15px 0 0;
             text-align: center;
             overflow: hidden;
             img{
@@ -74,22 +78,30 @@ export default {
             }
         }
 
-        .show-button {
-            background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 92%, white 92% 100%);
-            background-size: 200%;
-            padding: 10px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            color: $main-bg-color;
-            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        .content{
+            padding-left: 12px;
+        }
 
-            transition: all .3s;
+        .show-element{
+            padding-bottom: 30px;
 
-            &:hover {
-                color: white;
-                background-position: right;
+            .show-button {
+                background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 92%, white 92% 100%);
+                background-size: 200%;
+                padding: 10px 30px;
+                border-radius: 30px;
+                box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+                text-decoration: none;
+                color: $main-bg-color;
+                transition: all .3s;
+    
+                &:hover {
+                    color: white;
+                    background-position: right;
+                }
             }
         }
+
     }
 }
 </style>
