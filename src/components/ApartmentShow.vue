@@ -111,7 +111,7 @@ export default {
             </div>
         </div>
         <div class="row g-1 imgMap">
-            <div class="col-6 d-flex m-0">
+            <div class="col-6 d-flex m-0 img-wrapper">
                 <img v-if="image.startsWith('http')" :src="image" class="rounded-3 img-fluid" alt="image">
                 <img v-else :src="imageBaseURL+'storage/'+image"  class='rounded-3 img-fluid' alt="image">
             </div>
@@ -157,8 +157,8 @@ export default {
                         <textarea ref="userMessage" name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
                     </div>
                     <div class="mt-5">
-                        <a @click="getAndSendFormData">
-                            Invia il messaggio
+                        <a id="send-message" @click="getAndSendFormData">
+                            Invia messaggio
                         </a>
                     </div>
                 </div>
@@ -172,6 +172,14 @@ export default {
 
 .imgMap{
     max-height: 420px;
+
+    .img-wrapper{
+        max-height: 420px;
+        img{
+            margin: auto;
+            height: 100%;
+        }
+    }
 
     #map {
     height: 420px;
@@ -211,6 +219,13 @@ export default {
         background-color: rgb(241,243,246);
         &:focus{
             outline-color: rgba(255, 55, 92, 0.75);
+        }
+    }
+    a#send-message{
+        padding: 15px 30px;
+        color: $main-bg-color;
+        &:hover{
+            color: white;
         }
     }
 }
