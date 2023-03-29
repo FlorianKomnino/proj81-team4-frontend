@@ -88,6 +88,9 @@ export default {
             this.getApartmentId();
             this.getFormData();
             this.sendMessage();
+            this.userEmail = '';
+            this.userName = '';
+            this.userMessage = '';
         }
 
     },
@@ -98,54 +101,80 @@ export default {
     }
 }
 </script>
-<template lang="">
-    <div class='container'>
-        <div class='col-12'>
-            <input type="text" name="apartmentId" class="d-none" :value="apartment.id" id="apartmentId">
-            <h2>{{apartment.title}}</h2>
-            <h6>{{apartment.address}}</h6>
-            <div class="img-wrapper col-12">
-                <img v-if="image.startsWith('http')" :src="image" class="rounded mx-auto d-block" alt="image">
-                <img v-else :src="imageBaseURL+'storage/'+image"  class='rounded mx-auto d-block' alt="image">
+<template>
+    <div class='container py-4'>
+        <div class="row mb-4">
+            <div class='col-12'>
+                <input type="text" name="apartmentId" class="d-none" :value="apartment.id" id="apartmentId">
+                <h2 class="fs-2">{{apartment.title[0].toUpperCase() + apartment.title.slice(1)}}</h2>
+                <h6 class="text-decoration-underline">{{apartment.address}}</h6>
             </div>
-        <div class='mt-5 col-8'></div>
-            <span> Numero di stanze: {{apartment.rooms}} &#8226;</span>
-            <span> Numero di letti: {{apartment.beds}} &#8226;</span>
-            <span> Numero di bagni: {{apartment.bathrooms}}</span>
         </div>
-        <div class='mt-5'>
-            <h3>Cosa troverai</h3>
-            <p v-for="service in apartment.services">
-                <font-awesome-icon :icon="service.icon" />
-                {{service.name}}                
-            </p>
-        </div>
-        <div class="map-container col-12">
-            <h3>Dove ti troverai</h3>
-            <div id="map" class="map mb-3">
-                <div id="marker" class="d-flex justify-content-center align-items-center">
-                    <font-awesome-icon :icon="['fas', 'house']" class="marker-icon" />
+        <div class="row g-1 imgMap">
+            <div class="col-6 d-flex m-0">
+                <img v-if="image.startsWith('http')" :src="image" class="rounded-3 img-fluid" alt="image">
+                <img v-else :src="imageBaseURL+'storage/'+image"  class='rounded-3 img-fluid' alt="image">
+            </div>
+            <div class="col-6 m-0 d-flex align-items-center">
+                <div id="map" class="rounded-3">
+                    <div id="marker" class="d-flex justify-content-center align-items-center">
+                        <font-awesome-icon :icon="['fas', 'house']" class="marker-icon" />
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="messageContainer my-4">
-            <label for="" class="fs-1">Inserisci messaggio</label>
-            <textarea name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
-            <label for="">Inserisci la tua email</label>
-            <input type="email" v-model="userEmail">
-            <label for="">Inserisci il tuo nome</label>
-            <input type="text" v-model="userName">
-            <button @click="getAndSendFormData">
-                invia il messaggio
-            </button>
+        <div class="row mt-5">
+            <div class="col-7 pe-5">
+                <p class="mb-0 fs-5">
+                    Intero Alloggio: <span class="fw-bold">{{apartment.title[0].toUpperCase() + apartment.title.slice(1)}}</span> - Host: Inserire Host
+                </p>
+                <p class="fs-6 fw-light">
+                    <span> Numero di stanze: {{apartment.rooms}} &#8226;</span>
+                    <span> Numero di letti: {{apartment.beds}} &#8226;</span>
+                    <span> Numero di bagni: {{apartment.bathrooms}}</span>
+                </p>
+                <hr>
+                <div class='mt-4'>
+                    <h3>Cosa troverai</h3>
+                    <p v-for="service in apartment.services">
+                        <font-awesome-icon :icon="service.icon" />
+                        {{service.name}}                
+                    </p>
+                </div>
+            </div>
+            <div class="col-4 offset-1">
+                <div class="messageContainer rounded-3 access-buttons text-center p-5">
+                    <div class="d-flex flex-column text-start mb-1">
+                        <label for="">Email:</label>
+                        <input ref="userEmail" type="email" v-model="userEmail">
+                    </div>
+                    <div class="d-flex flex-column text-start mb-1">
+                        <label for="">Nome:</label>
+                        <input ref="userName" type="text" v-model="userName">
+                    </div>
+                    <div class="d-flex flex-column text-start">
+                        <label for="" class="">Messaggio:</label>
+                        <textarea ref="userMessage" name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
+                    </div>
+                    <div class="mt-5">
+                        <a @click="getAndSendFormData">
+                            Invia il messaggio
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 @use "../styles/general.scss" as *;
 
-#map {
-    height: 400px;
+.imgMap{
+    max-height: 420px;
+
+    #map {
+    height: 420px;
     width: 100%;
 
     #marker {
@@ -162,12 +191,27 @@ export default {
     }
 }
 
-img {
-    width: 100%;
 }
 
+
 .messageContainer {
-    height: 1000px;
-    border: 1px solid black;
+    height: 450px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    input{
+        background-color: rgb(241,243,246);
+        height: 40px;
+        padding: 15px;
+        &:focus{
+            outline-color: rgba(255, 55, 92, 0.75);
+        }
+    }
+    textarea{
+        max-height: 100px;
+        padding: 15px;
+        background-color: rgb(241,243,246);
+        &:focus{
+            outline-color: rgba(255, 55, 92, 0.75);
+        }
+    }
 }
 </style>
