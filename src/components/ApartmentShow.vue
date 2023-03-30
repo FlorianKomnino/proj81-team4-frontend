@@ -11,12 +11,14 @@ export default {
             longitude: 0,
             latitude: 0,
             userMessage: '',
+            validatedUserMessage: '',
+            userMessageErrors: '',
             userEmail: '',
             validatedUserEmail: '',
+            userEmailErrors: '',
             apartmentId: '',
             userName: '',
             formData: {},
-            emailErrorMessages: ''
         }
     },
     props: {
@@ -48,30 +50,43 @@ export default {
 
         emailValidation() {
             if (!this.userEmail) {
-                this.emailErrorMessages = 'L\'email è necessaria';
+                this.userEmailErrors = 'Inserisci la tua email';
             } else {
                 let regex = /\S+@\S+.\S+/;
-                if (!regex.test(this.userEmail)) {
-                    this.emailErrorMessages = 'Email non valida';
+                if (this.userEmail.length > 100) {
+                    this.userEmailErrors = 'L\'email non deve superare i 100 caratteri'
+                } else if (!regex.test(this.userEmail)) {
+                    this.userEmailErrors = 'Email non valida';
                 } else {
-                    this.emailErrorMessages = '';
+                    this.userEmailErrors = '';
                     this.validatedUserEmail = this.userEmail;
                 }
             }
         },
 
+        messageValidation() {
+            if (!this.userMessage) {
+                this.userMessageErrors = 'Inserisci un messaggio';
+            } else if (this.userMessage.length > 3000) {
+                this.userMessageErrors = 'Il messaggio non deve superare i 3000 caratteri';
+            } else {
+                this.userMessageErrors = '';
+                this.validatedUserMessage = this.userMessage;
+            }
+        },
+
         getFormData() {
-            this.formData['userMessage'] = this.userMessage;
-            this.formData['validatedUserEmail'] = this.validatedUserEmail;
             this.formData['apartmentId'] = this.apartmentId;
             this.formData['name'] = this.userName;
+            this.formData['validatedUserEmail'] = this.validatedUserEmail;
+            this.formData['validatedUserMessage'] = this.validatedUserMessage;
 
             console.log(this.formData);
         },
 
         sendMessage() {
             const innerFormData = {
-                text_content: this.formData['userMessage'],
+                text_content: this.formData['validatedUserMessage'],
                 email: this.formData['validatedUserEmail'],
                 apartment_id: this.formData['apartmentId'],
                 name: this.formData['name'],
@@ -90,12 +105,14 @@ export default {
         getAndSendFormData() {
             this.getApartmentId();
             this.emailValidation();
+            this.messageValidation();
             this.getFormData();
             this.sendMessage();
+            this.userName = '';
             this.userEmail = '';
             this.validatedUserEmail = '';
-            this.userName = '';
             this.userMessage = '';
+            this.validatedUserMessage = '';
         }
 
     },
@@ -150,19 +167,24 @@ export default {
             <div class="col-4 offset-1">
                 <div class="messageContainer rounded-3 access-buttons text-center p-5">
                     <div class="d-flex flex-column text-start mb-1">
-                        <label for="">Email:
-                            <span id="email-error" class="text-danger">
-                                {{ emailErrorMessages }}
-                            </span>
+                        <label for="">Nome:
                         </label>
-                        <input ref="userEmail" type="email" v-model="userEmail">
-                    </div>
-                    <div class="d-flex flex-column text-start mb-1">
-                        <label for="">Nome:</label>
                         <input ref="userName" type="text" v-model="userName">
                     </div>
+                    <div class="d-flex flex-column text-start mb-1">
+                        <label for="">Email:
+                        </label>
+                        <span class="text-danger">
+                            {{ userEmailErrors }}
+                        </span>
+                        <input ref="userEmail" type="email" v-model="userEmail">
+                    </div>
                     <div class="d-flex flex-column text-start">
-                        <label for="" class="">Messaggio:</label>
+                        <label for="" class="">Messaggio:
+                        </label>
+                        <span class="text-danger">
+                            {{ userMessageErrors }}
+                        </span>
                         <textarea ref="userMessage" name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
                     </div>
                     <div class="mt-5">
