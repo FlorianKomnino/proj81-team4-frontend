@@ -326,9 +326,11 @@ export default {
             </form>
         </div>
         <div class="row cards-map-container justify-content-between">
-            <div class="col-12 col-lg-6 col-xl-8 row cards-container justify-content-between align-items-start" v-if="apartmentsToShow">
-                <div class="col-12 col-md-6 col-xl-4" v-for="apartment in apartmentsToShow">
-                    <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
+            <div class="col-12 col-lg-6 col-xl-8" v-if="apartmentsToShow">
+                <div class="row cards-container justify-content-between">
+                    <div class="col-12 col-md-6 col-xl-4" v-for="apartment in apartmentsToShow">
+                        <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
+                    </div>
                 </div>
             </div>
             <div class="map-container d-none d-lg-block col-6 col-xl-4">
