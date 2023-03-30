@@ -38,7 +38,7 @@ export default {
                 <p><span class="brand-color-span">Indirizzo:</span>  {{apartment.address}}</p>
                 <p><span class="brand-color-span">Numero di stanze:</span>  {{apartment.rooms}}</p>
                 <p><span class="brand-color-span">Numero di letti:</span>  {{apartment.beds}}</p>
-                <p><span class="brand-color-span">distante</span>  {{ Math.round(apartment.distance) }}km dal punto richiesto</p>
+                <p v-if="apartment.distance"><span class="brand-color-span" v-if="apartment.distance">distante</span>  {{ Math.round(apartment.distance) }}km dal punto richiesto</p>
             </div>
             <div class="show-element align-self-center">
                 <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
@@ -60,7 +60,7 @@ export default {
         transition: all .6s;
         border-radius: 25px;
         background: #fafafa;
-        box-shadow:  -10px 10px 20px #8d8d8d, 10px -10px 20px #ffffff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         .img-wrapper{
             position: relative;
             height: 240px;
