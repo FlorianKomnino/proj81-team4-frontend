@@ -222,10 +222,20 @@ export default {
         }
     }
     a#send-message{
+        background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
+        background-size: 190%;
+        width: 100px;
         padding: 15px 30px;
+        border-radius: 30px;
+        text-decoration: none;
         color: $main-bg-color;
-        &:hover{
+        width: 110px;
+        box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        cursor: pointer;
+        transition: all .3s;
+        &:hover {
             color: white;
+            background-position: right;
         }
     }
 }
