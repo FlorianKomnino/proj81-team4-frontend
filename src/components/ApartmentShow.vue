@@ -93,6 +93,7 @@ export default {
             this.getFormData();
             this.sendMessage();
             this.userEmail = '';
+            this.validatedUserEmail = '';
             this.userName = '';
             this.userMessage = '';
         }
