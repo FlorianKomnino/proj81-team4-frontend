@@ -288,6 +288,11 @@ export default {
 <template lang="">
     <div class="main-container pt-4 ps-3">
         <div class="searchbar-container container-fluid mb-4">
+            <div class="col-12 mt-3">
+                <p v-if="locationQuery">
+                    Abbiamo trovato <span class="brand-color-span">{{apartmentsToShow.length}}</span> alloggi in questa <span class="brand-color-span">località: </span> {{locationQuery}}
+                </p>
+            </div>
             <!-- <SearchBarTomtom @location="getHouses"/> -->
             <form class="row align-items-center" @keyup.enter="getApartments">
                 <div class="col-12 col-lg-6 row align-items-center">
@@ -319,14 +324,9 @@ export default {
                         </label>
                     </div>
             </form>
-            <div class="col-12 mt-3">
-                    <p v-if="locationQuery">
-                        Abbiamo trovato {{apartmentsToShow.length}} alloggi in questa località: {{locationQuery}}
-                    </p>
-                </div>
         </div>
         <div class="row cards-map-container justify-content-between">
-            <div class="col-12 col-lg-6 col-xl-8 row cards-container justify-content-between" v-if="apartmentsToShow">
+            <div class="col-12 col-lg-6 col-xl-8 row cards-container justify-content-between align-items-start" v-if="apartmentsToShow">
                 <div class="col-12 col-md-6 col-xl-4" v-for="apartment in apartmentsToShow">
                     <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                 </div>

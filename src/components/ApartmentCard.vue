@@ -38,7 +38,7 @@ export default {
                 <p><span class="brand-color-span">Indirizzo:</span>  {{apartment.address}}</p>
                 <p><span class="brand-color-span">Numero di stanze:</span>  {{apartment.rooms}}</p>
                 <p><span class="brand-color-span">Numero di letti:</span>  {{apartment.beds}}</p>
-                <p><span class="brand-color-span">distante</span>  {{ Math.round(apartment.distance) }}km dal punto richiesto</p>
+                <p><span class="brand-color-span">distante</span>  {{ (Math.round(apartment.distance * 10)/10) }}km dal punto richiesto</p>
             </div>
             <div class="show-element align-self-center">
                 <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
