@@ -1,21 +1,14 @@
 <script>
 /* import tomtom */
 import tt from '@tomtom-international/web-sdk-maps'
-/* import FuzzySearch */
-import FuzzySearch from 'fuzzy-search';
-
-import SearchBarTomtom from './SearchBarTomtom.vue';
 import ApartmentCard from '../ApartmentCard.vue';
 import axios from 'axios';
-import { Marker } from 'mapbox-gl';
-import { useRoute } from 'vue-router';
 import { services } from '@tomtom-international/web-sdk-services';
 import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
 
 export default {
     name: 'MapTomtom',
     components: {
-        SearchBarTomtom,
         ApartmentCard,
     },
     data() {
@@ -42,12 +35,17 @@ export default {
             apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
-
             hasCards: false,
+            filterShow: 'hidden',
+            overlay: 'none',
         }
     },
     methods: {
         getApartments() {
+            document.getElementById('overlay').style.display = 'none';
+            this.overlay = 'none'
+            document.querySelector('.filters').style.visibility = "hidden";
+            this.filterShow = 'hidden'
             this.apartmentsToShow = [];
             this.apartments = [];
             const filters = this.servicesRequired;
@@ -116,14 +114,22 @@ export default {
                                             apartment.distance = turf.distance([centerCoordinate.lat,centerCoordinate.lon],[apartment.position.lat,apartment.position.lon])
                                         })
                                         this.foundApartments.sort((a,b)=>a.distance-b.distance)
-                                        this.foundApartments.forEach((positionApartment) => {
+                                        this.foundApartments.forEach((positionApartment, index) => {
                                             this.initialApartments.forEach((filteredApartment) => {
                                                 if (filteredApartment.id == positionApartment.position.id) {
                                                     filteredApartment.distance = positionApartment.distance
                                                     this.apartmentsToShow.push(filteredApartment)
+                                                    // this if else is needed to have sponsorships not as an array but as a number to be able to sort them at the end of this foreach
+                                                   if(this.apartmentsToShow[index].sponsorships.length>0){
+                                                    this.apartmentsToShow[index].sponsorships = 1
+                                                   } else {
+                                                    this.apartmentsToShow[index].sponsorships = 0
+                                                   }
                                                 }
                                             })
                                         });
+                                        // this row sort the apartment to show by sponsorship, the sponsorshiped apartment will be shown first (money money)
+                                        this.apartmentsToShow.sort((a,b)=>b.sponsorships-a.sponsorships)
                                         this.hasCards = true
                                     })
                                     map.addControl(new tt.FullscreenControl());
@@ -259,17 +265,28 @@ export default {
             })
         },
         handleResultSelection(event) {
-            // if you click the "X" on the search bar the handleResultSelection's result will be null and the input will have the old value
             if (event.data.result.address.freeformAddress) {
                 this.locationQuery = event.data.result.address.freeformAddress
             }
             this.addParamsToLocation()
+        },
+        getFilterAppear(){
+            if (this.overlay == 'none'){
+                document.getElementById('overlay').style.display = 'block';
+                this.overlay = 'block'
+            } else {
+                document.getElementById('overlay').style.display = 'none';
+                this.overlay = 'none'
+            }
+            
+            if (this.filterShow == "hidden"){
+                document.querySelector('.filters').style.visibility = "visible";
+                this.filterShow = "visible";
+            } else {
+                document.querySelector('.filters').style.visibility = "hidden";
+                this.filterShow = "hidden";
+            }
         }
-    },
-    created() {
-    },
-    beforeMount(){
-        
     },
     mounted() {
         this.kitchenElement = document.getElementById('Cucina')
@@ -286,22 +303,52 @@ export default {
 </script>
 
 <template lang="">
-    <div class="main-container pt-4 ps-3">
+    <div class="main-container pt-4 ps-3 position-relative">
+        <div id='overlay' class='overlay'></div>
         <div class="searchbar-container container-fluid mb-4">
-            <!-- <SearchBarTomtom @location="getHouses"/> -->
-            <form class="row align-items-center" @keyup.enter="getApartments">
-                <div class="col-12 col-lg-6 row align-items-center">
-                    <label class="col-12">Inserisci una città:</label>
-                    <div id="searchbar" class="mb-2 col-12">
-                        <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
+            <form class="row g-0 m-0 align-items-center justify-content-center" @keyup.enter="getApartments">
+                <div class="col-12 col-lg-10 col-xxl-8">
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <p v-if="locationQuery" class="m-0">
+                                Abbiamo trovato {{apartmentsToShow.length}} alloggi in questa località: <span class="fw-bold">{{locationQuery}}</span> 
+                                <br>
+                                Se vuoi cambiare destinazione, cercala pure qui sotto!
+                            </p>
+                            <div id="searchbar" class="me-3">
+                                <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
+                            </div>
+                        </div>
+                        <div class="col-4 align-items-end d-none d-md-flex p-0">
+                            <div role="button" class="customButton mt-auto mb-1 me-2 d-flex align-items-center justify-content-center d-none d-md-flex" @click="getFilterAppear">
+                                Filtri
+                            </div>
+                            <div role="button" class="customButton mt-auto mb-1 d-flex align-items-center justify-content-center d-none d-md-flex" @click="getApartments">
+                                Cerca
+                            </div>
+                        </div>
+                    </div>
+                    <!-- this is needed for breakpoint md down -->
+                    <div class="col-12 justify-content-center d-flex d-md-none mt-4">
+                        <div role="button" class="customButton mt-auto mb-1 d-flex align-items-center justify-content-center d-flex d-md-none" @click="getFilterAppear">
+                            Filtri
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 row align-items-center my-3">
-                    <label class="col-12">Inserisci un raggio (km):</label>
-                    <div class="distance-wrapper col-12">
-                        <input @keyup="addParamsToLocation" class="form-control col-12" v-model="radius">
+
+                <!-- section for the popup with all the filters -->
+                <div class="filters d-flex flex-column align-items-center p-4">
+                    <p class="m-0 fw-bold position-relative w-100 text-center">
+                        Filtri:
+                        <font-awesome-icon :icon="['fas', 'xmark']" @click="getFilterAppear" role="button" class="xIcon"/>
+                    </p>
+                    <hr>
+                    <div class="col-12 col-lg-6 row align-items-center my-3">
+                        <label class="col-12">Inserisci un raggio (km):</label>
+                        <div class="distance-wrapper col-12">
+                            <input @keyup="addParamsToLocation" class="form-control col-12" v-model="radius">
+                        </div>
                     </div>
-                </div>
                     <div class="beds-rooms row col-12 col-lg-6">
                         <div class="col-6 my-3">
                             <label for="rooms"> n° Stanze</label>
@@ -318,16 +365,17 @@ export default {
                             {{service}}
                         </label>
                     </div>
-            </form>
-            <div class="col-12 mt-3">
-                    <p v-if="locationQuery">
-                        Abbiamo trovato {{apartmentsToShow.length}} alloggi in questa località: {{locationQuery}}
-                    </p>
+                    <div role="button" class="customButton h-50 mb-2 text-center mt-4" @click="getApartments">
+                        Applica
+                    </div>
                 </div>
+            </form>
         </div>
-        <div class="row cards-map-container justify-content-between">
-            <div class="col-12 col-lg-6 col-xl-8 row cards-container justify-content-between" v-if="apartmentsToShow">
-                <div class="col-12 col-md-6 col-xl-4" v-for="apartment in apartmentsToShow">
+        
+        <!-- section with apartments and Tomtom map -->
+        <div class="row cards-map-container justify-content-between mt-5">
+            <div class="col-12 col-lg-6 col-xl-8 row cards-container" v-if="apartmentsToShow">
+                <div class="col-12 col-md-6 col-xl-4 col-xxl-3" v-for="apartment in apartmentsToShow">
                     <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                 </div>
             </div>
@@ -340,18 +388,48 @@ export default {
 
 <style lang="scss" scoped>
 @use "../../styles/general.scss" as *;
-form{
-    max-width: 1140px;
-}
+
 .main-container {
+
+    .filters{
+        visibility: hidden;
+        z-index: 3;
+        position: fixed;
+        top: 25%;
+        background-color: white;
+        border-radius: 10px;
+        width: 600px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        .xIcon{
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translate(0, -50%) scale(1.2);
+        }
+        hr{
+            width: 600px;
+        }
+    }
+
+    .overlay{
+        display: none;
+        position: fixed;
+        padding:0;
+        margin:0;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background:rgba(255,255,255,0.7);
+        z-index: 2;
+    }
     .map-container{
         position: relative;
         #map{
             position: sticky;
             height: calc(100vh - 95px);
             top: 95px;
-            box-shadow: -14px -14px 28px #cecece,
-            14px 14px 28px #f2f2f2;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         }
     }
 }
