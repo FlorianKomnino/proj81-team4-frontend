@@ -24,7 +24,6 @@ export default {
                 response.data.results.forEach(element => {
                     this.sponsoredApartments.push(element);
                 });
-                console.log(this.sponsoredApartments)
             })
         }
     },

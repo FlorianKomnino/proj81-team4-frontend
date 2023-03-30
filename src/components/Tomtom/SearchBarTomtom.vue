@@ -29,10 +29,6 @@ export default {
 <style lang="scss" scoped>
 @use "../../styles/general.scss" as *;
 
-button {
-    @include standard-button;
-}
-
 *:focus {
     outline: none;
 }

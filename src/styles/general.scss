@@ -3,14 +3,6 @@
 @import "../../node_modules/@tomtom-international/web-sdk-plugin-searchbox/dist/SearchBox.css";
 @import "./partials/colors.scss";
 
-@mixin standard-button {
-    background-color: $main-bg-color;
-    color: white;
-    padding: 5px 20px;
-    border: none;
-    border-radius: 10px;
-}
-
 * {
     border: 0;
     padding: 0;
@@ -20,4 +12,23 @@
 
 .brand-color-span{
     color: $main-bg-color;
+}
+
+.customButton {
+    background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
+    background-size: 190%;
+    height: 40px;
+    width: 100px;
+    padding: 10px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: $main-bg-color;
+    width: 110px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: all .3s;
+
+    &:hover {
+        color: white;
+        background-position: right;
+    }
 }

@@ -20,15 +20,15 @@ export default {
         },
     },
     mounted() {
-        console.log(this.$props)
+
     },
 
 }
 </script>
 
 <template>
-    <div class="apartment-container mb-3 py-3">
-        <div class="apartment-card d-flex rounded rounded-4 flex-column justify-content-between">
+    <div class="apartment-container mb-3">
+        <div class="apartment-card d-flex rounded rounded-4 flex-column justify-content-between mb-3">
             <div class="img-wrapper">
                 <img v-if="image.startsWith('http')" :src="image" alt="image">
                 <img v-else :src="imageBaseURL+'storage/'+image" alt="image">
@@ -52,10 +52,9 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/partials/colors.scss';
 .apartment-container{
-    height: 100%;
 
     .apartment-card{
-        height: 100%;
+        height: 550px;
         background-color: white;
         transition: all .6s;
         border-radius: 25px;
