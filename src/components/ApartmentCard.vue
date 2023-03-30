@@ -1,4 +1,6 @@
 <script>
+import axios from 'axios';
+
 
 export default {
     name: 'ApartmentCard',
@@ -18,6 +20,21 @@ export default {
             required: false,
             default: false,
         },
+    },
+    methods: {
+        addVisualization(){
+            axios.post(this.imageBaseURL)
+            .then(function (response) {
+
+                console.log(response);
+            })
+            .catch(function (error) {
+
+                console.log(error);
+            })
+            .finally(function () {
+            });
+        }
     },
     mounted() {
         console.log(this.$props)
@@ -42,7 +59,7 @@ export default {
             </div>
             <div class="show-element align-self-center">
                 <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
-                    class="show-button">Visualizza
+                    class="show-button" @click="addVisualization">Visualizza
                 </router-link>
             </div>
         </div>
