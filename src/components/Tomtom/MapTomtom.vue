@@ -42,7 +42,6 @@ export default {
             apartmentsUrlAddress: 'http://127.0.0.1:8000/api/apartments/filter/',
             urlAddress: 'https://api.tomtom.com/search/2/search/',
             positionUrlAddress: 'https://api.tomtom.com/search/2/geometryFilter.json',
-
             hasCards: false,
         }
     },
