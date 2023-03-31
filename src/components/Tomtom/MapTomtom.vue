@@ -305,7 +305,7 @@ export default {
 </script>
 
 <template lang="">
-    <div class="main-container pt-4 ps-3 position-relative">
+    <div class="main-container pt-4 px-3 position-relative">
         <div id='overlay' class='overlay'></div>
         <div class="searchbar-container container-fluid mb-4">
             <form class="row g-0 m-0 align-items-center justify-content-center" @keyup.enter="getApartments">
@@ -381,15 +381,15 @@ export default {
         </div>
         
         <!-- section with apartments and Tomtom map -->
-        <div class="row cards-map-container justify-content-between mt-5">
-            <div class="col-12 col-lg-6 col-xl-8" v-if="apartmentsToShow">
+        <div class="row cards-map-container justify-content-between mt-5 g-0">
+            <div class="col-12 col-lg-7 col-xl-8 col-xxl-7" v-if="apartmentsToShow">
                 <div class="row cards-container">
-                    <div class="col-12 col-md-6 col-xl-4 col-xxl-3" v-for="apartment in apartmentsToShow">
+                    <div class="col-12 col-md-6 col-xl-4" v-for="apartment in apartmentsToShow">
                         <ApartmentCard v-if="hasCards" :image="apartment.image" :apartment='apartment'/>
                     </div>
                 </div>
             </div>
-            <div class="map-container d-none d-lg-block col-6 col-xl-4">
+            <div class="map-container d-none d-lg-block col-6 col-lg-5 col-xl-4 col-xxl-5 ps-md-2">
                 <div id="map" class="map"></div>
             </div>
         </div>
@@ -405,7 +405,9 @@ export default {
         visibility: hidden;
         z-index: 3;
         position: fixed;
-        top: 25%;
+        top: 50vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
         background-color: white;
         border-radius: 10px;
         width: 600px;
@@ -436,6 +438,7 @@ export default {
     .map-container{
         position: relative;
         #map{
+            width: 100%;
             position: sticky;
             height: calc(100vh - 95px);
             top: 95px;
