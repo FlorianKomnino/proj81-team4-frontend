@@ -52,9 +52,9 @@ export default {
             if (!this.userEmail) {
                 this.userEmailErrors = 'Inserisci la tua email';
             } else {
-                let regex = /\S+@\S+.\S+/;
-                if (this.userEmail.length > 100) {
-                    this.userEmailErrors = 'L\'email non deve superare i 100 caratteri'
+                let regex = /\S+@\S+\.\S+/;
+                if (this.userEmail.length > 50) {
+                    this.userEmailErrors = 'L\'email non deve superare i 50 caratteri'
                 } else if (!regex.test(this.userEmail)) {
                     this.userEmailErrors = 'Email non valida';
                 } else {
@@ -67,8 +67,8 @@ export default {
         messageValidation() {
             if (!this.userMessage) {
                 this.userMessageErrors = 'Inserisci un messaggio';
-            } else if (this.userMessage.length > 3000) {
-                this.userMessageErrors = 'Il messaggio non deve superare i 3000 caratteri';
+            } else if (this.userMessage.length > 300) {
+                this.userMessageErrors = 'Il messaggio non deve superare i 300 caratteri';
             } else {
                 this.userMessageErrors = '';
                 this.validatedUserMessage = this.userMessage;
@@ -108,10 +108,10 @@ export default {
             this.messageValidation();
             this.getFormData();
             this.sendMessage();
-            this.userName = '';
-            this.userEmail = '';
+            // this.userName = '';
+            // this.userEmail = '';
             this.validatedUserEmail = '';
-            this.userMessage = '';
+            // this.userMessage = '';
             this.validatedUserMessage = '';
         }
 
@@ -172,7 +172,7 @@ export default {
                         <input ref="userName" type="text" v-model="userName">
                     </div>
                     <div class="d-flex flex-column text-start mb-1">
-                        <label for="">Email:
+                        <label for="">Email:*
                         </label>
                         <span class="text-danger">
                             {{ userEmailErrors }}
@@ -180,7 +180,7 @@ export default {
                         <input ref="userEmail" type="email" v-model="userEmail">
                     </div>
                     <div class="d-flex flex-column text-start">
-                        <label for="" class="">Messaggio:
+                        <label for="" class="">Messaggio:*
                         </label>
                         <span class="text-danger">
                             {{ userMessageErrors }}
@@ -192,6 +192,7 @@ export default {
                             Invia messaggio
                         </a>
                     </div>
+                    <p class=" mt-5 mb-0 text-secondary fst-italic">i campi contrassegnati da * sono obbligatori</p>
                 </div>
             </div>
         </div>
