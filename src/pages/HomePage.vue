@@ -141,9 +141,9 @@ export default {
                         </router-link>
                     </div>
                 </form>
+                <SponsoredApartment />
             </div>
         </section>
-        <SponsoredApartment />
     </div>
 </template>
 
@@ -151,7 +151,7 @@ export default {
 @import "../styles/partials/colors.scss";
 
 #jumbotron{
-    height: 360px;
+    height: calc(100vh - 95px);
     width: 100%;
     background-image: url(https://www.modulnova.it/foto/living/5cac33ee6bb0e201904090555584.jpg);
     background-size: cover;
@@ -159,10 +159,12 @@ export default {
     .search-bar-container{
         height: 100%;
         width: 100%;
-        background-color: #ffffff70;
+        background-color: #ffffffb0;
+        overflow-y: scroll;
+
 
         form{
-            height: 100%;
+            height: 34%;
 
             #searchbar{
                 position: relative;
