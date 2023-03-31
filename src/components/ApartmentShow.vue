@@ -19,6 +19,7 @@ export default {
             apartmentId: '',
             userName: '',
             formData: {},
+            success: false,
         }
     },
     props: {
@@ -85,6 +86,7 @@ export default {
         },
 
         sendMessage() {
+            this.success = false;
             const innerFormData = {
                 text_content: this.formData['validatedUserMessage'],
                 email: this.formData['validatedUserEmail'],
@@ -94,11 +96,15 @@ export default {
             axios.post(this.messageBaseUrl, innerFormData)
                 .then((response) => {
                     console.log(response);
-                    this.$toast.success(`Messaggio inviato con successo`);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.$toast.error(`Messaggio non inviato`);
+                    this.success = response.data.success;
+                    if (this.success) {
+                        this.userName = '';
+                        this.userEmail = '';
+                        this.userMessage = '';
+                        this.$toast.success(`Messaggio inviato con successo`);
+                    } else {
+                        this.$toast.error(`Messaggio non inviato`);
+                    }
                 })
         },
 
@@ -108,12 +114,9 @@ export default {
             this.messageValidation();
             this.getFormData();
             this.sendMessage();
-            // this.userName = '';
-            // this.userEmail = '';
             this.validatedUserEmail = '';
-            // this.userMessage = '';
             this.validatedUserMessage = '';
-        }
+        },
 
     },
     mounted() {
