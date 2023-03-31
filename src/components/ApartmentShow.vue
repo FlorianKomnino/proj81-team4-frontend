@@ -122,21 +122,22 @@ export default {
     }
 }
 </script>
+
 <template>
-    <div class='container py-4'>
+    <div class='container-fluid container-sm py-4'>
         <div class="row mb-4">
             <div class='col-12'>
                 <input type="text" name="apartmentId" class="d-none" :value="apartment.id" id="apartmentId">
-                <h2 class="fs-2">{{ apartment.title[0].toUpperCase() + apartment.title.slice(1) }}</h2>
-                <h6 class="text-decoration-underline">{{ apartment.address }}</h6>
+                <p class="title">{{ apartment.title[0].toUpperCase() + apartment.title.slice(1) }}</p>
+                <p class="text-decoration-underline smTextSize">{{ apartment.address }}</p>
             </div>
         </div>
         <div class="row g-1 imgMap">
-            <div class="col-6 d-flex m-0 img-wrapper">
-                <img v-if="image.startsWith('http')" :src="image" class="rounded-3 img-fluid" alt="image">
-                <img v-else :src="imageBaseURL + 'storage/' + image" class='rounded-3 img-fluid' alt="image">
+            <div class="col-12 col-lg-6 d-flex m-0 img-wrapper mb-1 mb-lg-0">
+                <img v-if="image.startsWith('http')" :src="image" class="rounded-3 img-fluid w-100" alt="image">
+                <img v-else :src="imageBaseURL + 'storage/' + image" class='rounded-3 img-fluid w-100' alt="image">
             </div>
-            <div class="col-6 m-0 d-flex align-items-center">
+            <div class="col-12 col-lg-6 m-0 d-flex align-items-center">
                 <div id="map" class="rounded-3">
                     <div id="marker" class="d-flex justify-content-center align-items-center">
                         <font-awesome-icon :icon="['fas', 'house']" class="marker-icon" />
@@ -144,34 +145,38 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-7 pe-5">
-                <p class="mb-0 fs-5">
-                    Intero Alloggio: <span class="fw-bold">{{ apartment.title[0].toUpperCase() +
-                        apartment.title.slice(1) }}</span> - Host: Inserire Host
+        <div class="row mt-5 g-0">
+            <div class="col-12 col-lg-7 pe-0 pe-lg-5">
+                <p class="subTitleSize">
+                    Intero Alloggio: {{ apartment.title[0].toUpperCase() +
+                        apartment.title.slice(1) }} - Host: Inserire Host
                 </p>
-                <p class="fs-6 fw-light">
+                <p class="textSize">
                     <span> Numero di stanze: {{ apartment.rooms }} &#8226;</span>
                     <span> Numero di letti: {{ apartment.beds }} &#8226;</span>
                     <span> Numero di bagni: {{ apartment.bathrooms }}</span>
                 </p>
                 <hr>
-                <div class='mt-4'>
-                    <h3>Cosa troverai</h3>
-                    <p v-for="service in apartment.services">
+                <div class='mt-0 mt-lg-4'>
+                    <p class="subTitleSize">Cosa troverai</p>
+                    <p class="textSize mb-2" v-for="service in apartment.services">
                         <font-awesome-icon :icon="service.icon" />
                         {{ service.name }}
                     </p>
                 </div>
+                <hr class="d-flex d-lg-none">
             </div>
-            <div class="col-4 offset-1">
-                <div class="messageContainer rounded-3 access-buttons text-center p-5">
-                    <div class="d-flex flex-column text-start mb-1">
+            <div class="col-12 col-lg-5 col-xl-4 offset-xl-1">
+                <div class="messageContainer rounded-3 access-buttons text-center px-5 py-4">
+                    <p class="subTitleSize mb-4 fs-5">
+                        Invia un messaggio all'host
+                    </p>
+                    <div class="d-flex flex-column text-start mb-1 textSize">
                         <label for="">Nome:
                         </label>
                         <input ref="userName" type="text" v-model="userName">
                     </div>
-                    <div class="d-flex flex-column text-start mb-1">
+                    <div class="d-flex flex-column text-start mb-1 textSize">
                         <label for="">Email:
                         </label>
                         <span class="text-danger">
@@ -179,7 +184,7 @@ export default {
                         </span>
                         <input ref="userEmail" type="email" v-model="userEmail">
                     </div>
-                    <div class="d-flex flex-column text-start">
+                    <div class="d-flex flex-column text-start textSize">
                         <label for="" class="">Messaggio:
                         </label>
                         <span class="text-danger">
@@ -198,11 +203,11 @@ export default {
 
     </div>
 </template>
+
 <style lang="scss" scoped>
 @use "../styles/general.scss" as *;
 
 .imgMap {
-    max-height: 420px;
 
     .img-wrapper {
         max-height: 420px;
@@ -235,7 +240,7 @@ export default {
 
 
 .messageContainer {
-    height: 450px;
+    min-height: 450px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
     input {
@@ -249,7 +254,8 @@ export default {
     }
 
     textarea {
-        max-height: 100px;
+        height: 100px;
+        resize: none;
         padding: 15px;
         background-color: rgb(241, 243, 246);
 
@@ -267,7 +273,7 @@ export default {
         text-decoration: none;
         color: $main-bg-color;
         width: 110px;
-        box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        box-shadow: rgba(99, 99, 99, 0.3) 0px 2px 8px 0px;
         cursor: pointer;
         transition: all .3s;
 
