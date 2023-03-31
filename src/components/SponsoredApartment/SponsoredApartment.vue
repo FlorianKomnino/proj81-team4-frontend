@@ -36,9 +36,9 @@ export default {
 
 <template>
 
-    <div class="container my-5">
+    <div class="container-fluid my-5">
         <div class="row apartment-container" v-if="sponsoredApartments">
-            <div class="col-12 col-md-6 col-xl-3" v-for="apartment in sponsoredApartments">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2" v-for="apartment in sponsoredApartments">
                 <ApartmentCard :image="apartment.image" :apartment='apartment'/>
             </div>
         </div>
@@ -50,7 +50,6 @@ export default {
 @import '../../styles/partials/colors.scss';
 .apartment-container{
     height: 100%;
-
     .apartment-card{
         height: 100%;
         background-color: white;

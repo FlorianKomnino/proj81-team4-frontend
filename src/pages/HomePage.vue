@@ -143,52 +143,59 @@ export default {
                 </form>
             </div>
         </section>
-        <SponsoredApartment />
+        <div class="apartment-container">
+            <SponsoredApartment />
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 @import "../styles/partials/colors.scss";
 
-#jumbotron{
-    height: 360px;
-    width: 100%;
-    background-image: url(https://www.modulnova.it/foto/living/5cac33ee6bb0e201904090555584.jpg);
-    background-size: cover;
-
-    .search-bar-container{
-        height: 100%;
+.main-container{
+    #jumbotron{
+        height: 480px;
         width: 100%;
-        background-color: #ffffff70;
-
-        form{
+        background-image: url(https://www.modulnova.it/foto/living/5cac33ee6bb0e201904090555584.jpg);
+        background-size: cover;
+        .search-bar-container{
             height: 100%;
-
-            #searchbar{
-                position: relative;
-
-                .my-button{
-                    position: absolute;
-                    text-decoration: none;
-                    text-align: center;
-                    line-height: 2.5rem;
-                    background-color: $main-bg-color;
-                    color: white;
-                    top: 65px;
-                    left: 12px;
-                    height: 44px;
-                    width: calc(100% - 24px);
-                    
-                    @media screen and (min-width: 576px) {
+            width: 100%;
+            background-color: #ffffff70;
+    
+            form{
+                height: 100%;
+    
+                #searchbar{
+                    position: relative;
+    
+                    .my-button{
+                        position: absolute;
+                        text-decoration: none;
+                        text-align: center;
+                        line-height: 2.5rem;
+                        background-color: $main-bg-color;
+                        color: white;
+                        top: 65px;
+                        left: 12px;
                         height: 44px;
-                        width: 80px;
-                        z-index: 1;
-                        left: calc(100% - 92px);
-                        top: 12px;
+                        width: calc(100% - 24px);
+                        
+                        @media screen and (min-width: 576px) {
+                            height: 44px;
+                            width: 80px;
+                            z-index: 1;
+                            left: calc(100% - 92px);
+                            top: 12px;
+                        }
                     }
                 }
             }
         }
     }
+    .apartment-container{
+        padding: 0 40px;
+    }
 }
+
 </style>
