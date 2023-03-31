@@ -141,6 +141,7 @@ export default {
                         </router-link>
                     </div>
                 </form>
+                <SponsoredApartment />
             </div>
         </section>
         <div class="apartment-container">

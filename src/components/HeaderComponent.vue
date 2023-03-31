@@ -31,7 +31,7 @@ export default {
         <div class="row justify-content-between align-items-center">
             <div class="img-wrapper">
                 <router-link to="/" class="logo-redirect">
-                <img src="../assets/imgs/Boolbnb_md_logo-transformed.svg" class="p-0" alt="Boolbnb logo">
+                    <img src="../assets/imgs/Boolbnb_md_logo-transformed.svg" class="p-0" alt="Boolbnb logo">
                 </router-link>
             </div>
             <div class="access-buttons col justify-content-end d-flex">
@@ -72,9 +72,8 @@ export default {
         height: 100%;
 
         .img-wrapper {
-            height: 100%;
-            width: 300px;
-
+            height: 70%;
+            width: 270px;
             img {
                 filter: $main-bg-color-filter;
                 height: 100%;
