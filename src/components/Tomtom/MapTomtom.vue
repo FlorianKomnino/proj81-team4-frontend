@@ -118,13 +118,15 @@ export default {
                                             this.initialApartments.forEach((filteredApartment) => {
                                                 if (filteredApartment.id == positionApartment.position.id) {
                                                     filteredApartment.distance = positionApartment.distance
-                                                    this.apartmentsToShow.push(filteredApartment)
-                                                    // this if else is needed to have sponsorships not as an array but as a number to be able to sort them at the end of this foreach
-                                                   if(this.apartmentsToShow[index].sponsorships.length>0){
-                                                    this.apartmentsToShow[index].sponsorships = 1
-                                                   } else {
-                                                    this.apartmentsToShow[index].sponsorships = 0
-                                                   }
+                                                    if (filteredApartment.distance <= this.radius) {
+                                                        this.apartmentsToShow.push(filteredApartment)
+                                                        // this if else is needed to have sponsorships not as an array but as a number to be able to sort them at the end of this foreach
+                                                        if(this.apartmentsToShow[index].sponsorships.length>0){
+                                                            this.apartmentsToShow[index].sponsorships = 1
+                                                        } else {
+                                                            this.apartmentsToShow[index].sponsorships = 0
+                                                        }
+                                                    }
                                                 }
                                             })
                                         });
@@ -306,19 +308,14 @@ export default {
     <div class="main-container pt-4 ps-3 position-relative">
         <div id='overlay' class='overlay'></div>
         <div class="searchbar-container container-fluid mb-4">
-            <div class="col-12 mt-3">
-                <p v-if="locationQuery">
-                    Abbiamo trovato <span class="brand-color-span">{{apartmentsToShow.length}}</span> alloggi in questa <span class="brand-color-span">località: </span> {{locationQuery}}
-                </p>
-            </div>
             <form class="row g-0 m-0 align-items-center justify-content-center" @keyup.enter="getApartments">
                 <div class="col-12 col-lg-10 col-xxl-8">
                     <div class="row">
                         <div class="col-12 col-md-8">
                             <p v-if="locationQuery" class="m-0">
-                                Abbiamo trovato {{apartmentsToShow.length}} alloggi in questa località: <span class="fw-bold">{{locationQuery}}</span> 
+                                Abbiamo trovato <span class="brand-color-span">{{apartmentsToShow.length}}</span> alloggi in questa <span class="brand-color-span">località:</span> <span class="fw-bold">{{locationQuery}}</span> 
                                 <br>
-                                Se vuoi cambiare destinazione, cercala pure qui sotto!
+                                Se <span class="brand-color-span">vuoi cambiare</span> destinazione, <span class="brand-color-span">cercala</span> pure qui sotto!
                             </p>
                             <div id="searchbar" class="me-3">
                                 <input id="address" class="d-none" name="address" @keyup="addParamsToLocation" type="text" placeholder="Search" v-model="locationQuery">
@@ -351,7 +348,13 @@ export default {
                     <div class="col-12 col-lg-6 row align-items-center my-3">
                         <label class="col-12">Inserisci un raggio (km):</label>
                         <div class="distance-wrapper col-12">
-                            <input @keyup="addParamsToLocation" class="form-control col-12" v-model="radius">
+                            <select @keyup="addParamsToLocation" class="form-select col-12" v-model="radius">
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                            </select>
                         </div>
                     </div>
                     <div class="beds-rooms row col-12 col-lg-6">
