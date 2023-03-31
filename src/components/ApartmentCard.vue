@@ -20,7 +20,7 @@ export default {
         },
     },
     mounted() {
-
+        console.log(this.$props.apartment)
     },
 
 }
@@ -28,6 +28,9 @@ export default {
 
 <template>
     <div class="apartment-container mb-3">
+        <div v-if="apartment.sponsorships == 1" class="sponsorship">
+            <p class="m-0">Bool B&B selection</p>
+        </div>
         <div class="apartment-card d-flex rounded rounded-4 flex-column justify-content-between mb-3">
             <div class="img-wrapper">
                 <img v-if="image.startsWith('http')" :src="image" alt="image">
@@ -52,6 +55,21 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/partials/colors.scss';
 .apartment-container{
+    position: relative;
+
+    .sponsorship{
+        background-color: $main-bg-color;
+        color: white;
+        border-radius: 5px;
+        font-size: .8rem;
+        font-weight: bold;
+        padding: 6px;
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        z-index: 3;
+        box-shadow: rgba(99, 99, 99, 0.6) 0px 2px 8px 0px;
+    }
 
     .apartment-card{
         height: 550px;
