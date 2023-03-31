@@ -36,9 +36,7 @@ export default {
 }
 </script>
 <template>
-    <div class="container">
-        <ApartmentShow v-if="hasData"  :image='apartment.image' :apartment="apartment" :position="position" />
-    </div>
+    <ApartmentShow v-if="hasData"  :image='apartment.image' :apartment="apartment" :position="position" />
 </template>
 <style lang="scss">
 </style>

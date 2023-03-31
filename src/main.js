@@ -17,4 +17,4 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 
 library.add(fas, far, fab)
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(Toaster).use(router).mount('#app')
+createApp(App).component('font-awesome-icon', FontAwesomeIcon).use(Toaster, {position: "bottom",}).use(router).mount('#app')
