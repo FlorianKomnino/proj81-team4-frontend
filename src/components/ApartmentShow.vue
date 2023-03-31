@@ -19,6 +19,7 @@ export default {
             apartmentId: '',
             userName: '',
             formData: {},
+            success: false,
         }
     },
     props: {
@@ -52,9 +53,9 @@ export default {
             if (!this.userEmail) {
                 this.userEmailErrors = 'Inserisci la tua email';
             } else {
-                let regex = /\S+@\S+.\S+/;
-                if (this.userEmail.length > 100) {
-                    this.userEmailErrors = 'L\'email non deve superare i 100 caratteri'
+                let regex = /\S+@\S+\.\S+/;
+                if (this.userEmail.length > 50) {
+                    this.userEmailErrors = 'L\'email non deve superare i 50 caratteri'
                 } else if (!regex.test(this.userEmail)) {
                     this.userEmailErrors = 'Email non valida';
                 } else {
@@ -67,8 +68,8 @@ export default {
         messageValidation() {
             if (!this.userMessage) {
                 this.userMessageErrors = 'Inserisci un messaggio';
-            } else if (this.userMessage.length > 3000) {
-                this.userMessageErrors = 'Il messaggio non deve superare i 3000 caratteri';
+            } else if (this.userMessage.length > 300) {
+                this.userMessageErrors = 'Il messaggio non deve superare i 300 caratteri';
             } else {
                 this.userMessageErrors = '';
                 this.validatedUserMessage = this.userMessage;
@@ -85,6 +86,7 @@ export default {
         },
 
         sendMessage() {
+            this.success = false;
             const innerFormData = {
                 text_content: this.formData['validatedUserMessage'],
                 email: this.formData['validatedUserEmail'],
@@ -94,11 +96,15 @@ export default {
             axios.post(this.messageBaseUrl, innerFormData)
                 .then((response) => {
                     console.log(response);
-                    this.$toast.success(`Messaggio inviato con successo`);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    this.$toast.error(`Messaggio non inviato`);
+                    this.success = response.data.success;
+                    if (this.success) {
+                        this.userName = '';
+                        this.userEmail = '';
+                        this.userMessage = '';
+                        this.$toast.success(`Messaggio inviato con successo`);
+                    } else {
+                        this.$toast.error(`Messaggio non inviato`);
+                    }
                 })
         },
 
@@ -108,12 +114,9 @@ export default {
             this.messageValidation();
             this.getFormData();
             this.sendMessage();
-            this.userName = '';
-            this.userEmail = '';
             this.validatedUserEmail = '';
-            this.userMessage = '';
             this.validatedUserMessage = '';
-        }
+        },
 
     },
     mounted() {
@@ -176,16 +179,16 @@ export default {
                         </label>
                         <input ref="userName" type="text" v-model="userName">
                     </div>
-                    <div class="d-flex flex-column text-start mb-1 textSize">
-                        <label for="">Email:
+                    <div class="d-flex flex-column text-start mb-1">
+                        <label for="">Email:*
                         </label>
                         <span class="text-danger">
                             {{ userEmailErrors }}
                         </span>
                         <input ref="userEmail" type="email" v-model="userEmail">
                     </div>
-                    <div class="d-flex flex-column text-start textSize">
-                        <label for="" class="">Messaggio:
+                    <div class="d-flex flex-column text-start">
+                        <label for="" class="">Messaggio:*
                         </label>
                         <span class="text-danger">
                             {{ userMessageErrors }}
@@ -197,6 +200,7 @@ export default {
                             Invia messaggio
                         </a>
                     </div>
+                    <p class=" mt-5 mb-0 text-secondary fst-italic">i campi contrassegnati da * sono obbligatori</p>
                 </div>
             </div>
         </div>
