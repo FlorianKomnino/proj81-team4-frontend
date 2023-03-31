@@ -1,4 +1,5 @@
 <script>
+import SponsoredApartment from '../components/SponsoredApartment/SponsoredApartment.vue';
 import IconCard from '../components/IconCard.vue';
 import { services } from '@tomtom-international/web-sdk-services';
 import SearchBox from '@tomtom-international/web-sdk-plugin-searchbox';
@@ -11,6 +12,7 @@ export default {
     name: 'HomePage',
     components: {
         IconCard,
+        SponsoredApartment,
     },
     data() {
         return {
@@ -141,11 +143,11 @@ export default {
                 </form>
             </div>
         </section>
+        <SponsoredApartment />
     </div>
 </template>
 
 <style lang="scss" scoped>
-
 @import "../styles/partials/colors.scss";
 
 #jumbotron{

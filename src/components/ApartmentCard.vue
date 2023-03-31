@@ -20,15 +20,15 @@ export default {
         },
     },
     mounted() {
-        console.log(this.$props)
+
     },
 
 }
 </script>
 
 <template>
-    <div class="apartment-container mb-3 py-3">
-        <div class="apartment-card d-flex rounded rounded-4 flex-column justify-content-between">
+    <div class="apartment-container mb-3">
+        <div class="apartment-card d-flex rounded rounded-4 flex-column justify-content-between mb-3">
             <div class="img-wrapper">
                 <img v-if="image.startsWith('http')" :src="image" alt="image">
                 <img v-else :src="imageBaseURL+'storage/'+image" alt="image">
@@ -38,7 +38,7 @@ export default {
                 <p><span class="brand-color-span">Indirizzo:</span>  {{apartment.address}}</p>
                 <p><span class="brand-color-span">Numero di stanze:</span>  {{apartment.rooms}}</p>
                 <p><span class="brand-color-span">Numero di letti:</span>  {{apartment.beds}}</p>
-                <p><span class="brand-color-span">distante</span>  {{ (Math.round(apartment.distance * 10)/10) }}km dal punto richiesto</p>
+                <p v-if="apartment.distance"><span class="brand-color-span" v-if="apartment.distance">distante</span>  {{ (Math.round(apartment.distance * 10)/10) }}km dal punto richiesto</p>
             </div>
             <div class="show-element align-self-center">
                 <router-link :to="{ name: 'apartment', params: { slug: apartment.slug } }"
@@ -52,15 +52,14 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/partials/colors.scss';
 .apartment-container{
-    height: 100%;
 
     .apartment-card{
-        height: 100%;
+        height: 550px;
         background-color: white;
         transition: all .6s;
         border-radius: 25px;
         background: #fafafa;
-        box-shadow:  -10px 10px 20px #8d8d8d, 10px -10px 20px #ffffff;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         .img-wrapper{
             position: relative;
             height: 240px;

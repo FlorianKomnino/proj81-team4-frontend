@@ -11,7 +11,11 @@ export default {
             longitude: 0,
             latitude: 0,
             userMessage: '',
+            validatedUserMessage: '',
+            userMessageErrors: '',
             userEmail: '',
+            validatedUserEmail: '',
+            userEmailErrors: '',
             apartmentId: '',
             userName: '',
             formData: {},
@@ -39,65 +43,82 @@ export default {
             map.addControl(new tt.FullscreenControl());
             map.addControl(new tt.NavigationControl());
         },
+
+        getApartmentId() {
+            this.apartmentId = document.getElementById('apartmentId').value;
+        },
+
+        emailValidation() {
+            if (!this.userEmail) {
+                this.userEmailErrors = 'Inserisci la tua email';
+            } else {
+                let regex = /\S+@\S+.\S+/;
+                if (this.userEmail.length > 100) {
+                    this.userEmailErrors = 'L\'email non deve superare i 100 caratteri'
+                } else if (!regex.test(this.userEmail)) {
+                    this.userEmailErrors = 'Email non valida';
+                } else {
+                    this.userEmailErrors = '';
+                    this.validatedUserEmail = this.userEmail;
+                }
+            }
+        },
+
+        messageValidation() {
+            if (!this.userMessage) {
+                this.userMessageErrors = 'Inserisci un messaggio';
+            } else if (this.userMessage.length > 3000) {
+                this.userMessageErrors = 'Il messaggio non deve superare i 3000 caratteri';
+            } else {
+                this.userMessageErrors = '';
+                this.validatedUserMessage = this.userMessage;
+            }
+        },
+
+        getFormData() {
+            this.formData['apartmentId'] = this.apartmentId;
+            this.formData['name'] = this.userName;
+            this.formData['validatedUserEmail'] = this.validatedUserEmail;
+            this.formData['validatedUserMessage'] = this.validatedUserMessage;
+
+            console.log(this.formData);
+        },
+
         sendMessage() {
             const innerFormData = {
-                text_content: this.formData['userMessage'],
-                email: this.formData['userEmail'],
+                text_content: this.formData['validatedUserMessage'],
+                email: this.formData['validatedUserEmail'],
                 apartment_id: this.formData['apartmentId'],
                 name: this.formData['name'],
             };
             axios.post(this.messageBaseUrl, innerFormData)
-            .then( (response) => {
-                console.log(response);
-                this.$toast.success(`Messaggio inviato con successo`);
-            })
-            .catch((error) => {
-                console.log(error);
-                this.$toast.error(`Messaggio non inviato`);
-            })
-        },
-        /*.then((response) => {
+                .then((response) => {
                     console.log(response);
-                    this.success = response.data.success;
-                    if (this.success) {
-                        this.$toast.success(`Messaggio inviato con successo`);
-                    } else {
-                        this.errors = response.data.errors;
-                        console.warn(this.errors);
-                        this.$toast.error(`Messaggio non inviato`);
-                    }*/
-
-        /*
-        *
-        * return: void 
-        * 
-        */
-        getApartmentId() {
-            this.apartmentId = document.getElementById('apartmentId').value;
-            console.log(this.apartmentId);
+                    this.$toast.success(`Messaggio inviato con successo`);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.$toast.error(`Messaggio non inviato`);
+                })
         },
-        getFormData() {
-            this.formData['userMessage'] = this.userMessage;
-            this.formData['userEmail'] = this.userEmail;
-            this.formData['apartmentId'] = this.apartmentId;
-            this.formData['name'] = this.userName;
 
-            console.log(this.formData);
-        },
         getAndSendFormData() {
             this.getApartmentId();
+            this.emailValidation();
+            this.messageValidation();
             this.getFormData();
             this.sendMessage();
-            this.userEmail = '';
             this.userName = '';
+            this.userEmail = '';
+            this.validatedUserEmail = '';
             this.userMessage = '';
+            this.validatedUserMessage = '';
         }
 
     },
     mounted() {
         this.initialMap();
         this.getApartmentId();
-        this.getFormData();
     }
 }
 </script>
@@ -106,14 +127,14 @@ export default {
         <div class="row mb-4">
             <div class='col-12'>
                 <input type="text" name="apartmentId" class="d-none" :value="apartment.id" id="apartmentId">
-                <h2 class="fs-2">{{apartment.title[0].toUpperCase() + apartment.title.slice(1)}}</h2>
-                <h6 class="text-decoration-underline">{{apartment.address}}</h6>
+                <h2 class="fs-2">{{ apartment.title[0].toUpperCase() + apartment.title.slice(1) }}</h2>
+                <h6 class="text-decoration-underline">{{ apartment.address }}</h6>
             </div>
         </div>
         <div class="row g-1 imgMap">
             <div class="col-6 d-flex m-0 img-wrapper">
                 <img v-if="image.startsWith('http')" :src="image" class="rounded-3 img-fluid" alt="image">
-                <img v-else :src="imageBaseURL+'storage/'+image"  class='rounded-3 img-fluid' alt="image">
+                <img v-else :src="imageBaseURL + 'storage/' + image" class='rounded-3 img-fluid' alt="image">
             </div>
             <div class="col-6 m-0 d-flex align-items-center">
                 <div id="map" class="rounded-3">
@@ -126,34 +147,44 @@ export default {
         <div class="row mt-5">
             <div class="col-7 pe-5">
                 <p class="mb-0 fs-5">
-                    Intero Alloggio: <span class="fw-bold">{{apartment.title[0].toUpperCase() + apartment.title.slice(1)}}</span> - Host: Inserire Host
+                    Intero Alloggio: <span class="fw-bold">{{ apartment.title[0].toUpperCase() +
+                        apartment.title.slice(1) }}</span> - Host: Inserire Host
                 </p>
                 <p class="fs-6 fw-light">
-                    <span> Numero di stanze: {{apartment.rooms}} &#8226;</span>
-                    <span> Numero di letti: {{apartment.beds}} &#8226;</span>
-                    <span> Numero di bagni: {{apartment.bathrooms}}</span>
+                    <span> Numero di stanze: {{ apartment.rooms }} &#8226;</span>
+                    <span> Numero di letti: {{ apartment.beds }} &#8226;</span>
+                    <span> Numero di bagni: {{ apartment.bathrooms }}</span>
                 </p>
                 <hr>
                 <div class='mt-4'>
                     <h3>Cosa troverai</h3>
                     <p v-for="service in apartment.services">
                         <font-awesome-icon :icon="service.icon" />
-                        {{service.name}}                
+                        {{ service.name }}
                     </p>
                 </div>
             </div>
             <div class="col-4 offset-1">
                 <div class="messageContainer rounded-3 access-buttons text-center p-5">
                     <div class="d-flex flex-column text-start mb-1">
-                        <label for="">Email:</label>
-                        <input ref="userEmail" type="email" v-model="userEmail">
-                    </div>
-                    <div class="d-flex flex-column text-start mb-1">
-                        <label for="">Nome:</label>
+                        <label for="">Nome:
+                        </label>
                         <input ref="userName" type="text" v-model="userName">
                     </div>
+                    <div class="d-flex flex-column text-start mb-1">
+                        <label for="">Email:
+                        </label>
+                        <span class="text-danger">
+                            {{ userEmailErrors }}
+                        </span>
+                        <input ref="userEmail" type="email" v-model="userEmail">
+                    </div>
                     <div class="d-flex flex-column text-start">
-                        <label for="" class="">Messaggio:</label>
+                        <label for="" class="">Messaggio:
+                        </label>
+                        <span class="text-danger">
+                            {{ userMessageErrors }}
+                        </span>
                         <textarea ref="userMessage" name="" id="" cols="30" rows="10" v-model="userMessage"></textarea>
                     </div>
                     <div class="mt-5">
@@ -170,34 +201,35 @@ export default {
 <style lang="scss" scoped>
 @use "../styles/general.scss" as *;
 
-.imgMap{
+.imgMap {
     max-height: 420px;
 
-    .img-wrapper{
+    .img-wrapper {
         max-height: 420px;
-        img{
+
+        img {
             margin: auto;
             height: 100%;
         }
     }
 
     #map {
-    height: 420px;
-    width: 100%;
+        height: 420px;
+        width: 100%;
 
-    #marker {
-        background-color: $main-bg-color;
-        border-radius: 50%;
-        height: 48px;
-        width: 48px;
-        color: white;
+        #marker {
+            background-color: $main-bg-color;
+            border-radius: 50%;
+            height: 48px;
+            width: 48px;
+            color: white;
 
-        .marker-icon {
-            height: 22px;
-            width: 22px;
+            .marker-icon {
+                height: 22px;
+                width: 22px;
+            }
         }
     }
-}
 
 }
 
@@ -205,23 +237,28 @@ export default {
 .messageContainer {
     height: 450px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    input{
-        background-color: rgb(241,243,246);
+
+    input {
+        background-color: rgb(241, 243, 246);
         height: 40px;
         padding: 15px;
-        &:focus{
+
+        &:focus {
             outline-color: rgba(255, 55, 92, 0.75);
         }
     }
-    textarea{
+
+    textarea {
         max-height: 100px;
         padding: 15px;
-        background-color: rgb(241,243,246);
-        &:focus{
+        background-color: rgb(241, 243, 246);
+
+        &:focus {
             outline-color: rgba(255, 55, 92, 0.75);
         }
     }
-    a#send-message{
+
+    a#send-message {
         background: linear-gradient(108deg, white 0 45%, $main-bg-color 45% 90%, white 90% 100%);
         background-size: 190%;
         width: 100px;
@@ -233,6 +270,7 @@ export default {
         box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
         cursor: pointer;
         transition: all .3s;
+
         &:hover {
             color: white;
             background-position: right;
