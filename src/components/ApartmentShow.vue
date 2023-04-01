@@ -24,7 +24,7 @@ export default {
     },
     props: {
         apartment: Object,
-        image: String
+        image: String,
     },
     methods: {
         initialMap() {
@@ -151,8 +151,8 @@ export default {
         <div class="row mt-5 g-0">
             <div class="col-12 col-lg-7 pe-0 pe-lg-5">
                 <p class="subTitleSize">
-                    Intero Alloggio: {{ apartment.title[0].toUpperCase() +
-                        apartment.title.slice(1) }} - Host: Inserire Host
+                    Intero <span class="brand-text">Alloggio</span> : {{ apartment.title[0].toUpperCase() +
+                        apartment.title.slice(1) }} - <span class="brand-text"> Host</span>: {{ (apartment.user.name != 'nuovo utente') ? apartment.user.name : apartment.user.email }}
                 </p>
                 <p class="textSize">
                     <span> Numero di stanze: {{ apartment.rooms }} &#8226;</span>
@@ -160,10 +160,10 @@ export default {
                     <span> Numero di bagni: {{ apartment.bathrooms }}</span>
                 </p>
                 <hr>
-                <div class='mt-0 mt-lg-4'>
+                <div class='services mt-0 mt-lg-4'>
                     <p class="subTitleSize">Cosa troverai</p>
                     <p class="textSize mb-2" v-for="service in apartment.services">
-                        <font-awesome-icon :icon="service.icon" />
+                        <span class="icon"><font-awesome-icon :icon="service.icon" /></span>
                         {{ service.name }}
                     </p>
                 </div>
@@ -210,6 +210,7 @@ export default {
 
 <style lang="scss" scoped>
 @use "../styles/general.scss" as *;
+@import "../styles/partials/colors.scss";
 
 .imgMap {
 
@@ -221,6 +222,8 @@ export default {
             height: 100%;
         }
     }
+
+
 
     #map {
         height: 420px;
@@ -242,6 +245,15 @@ export default {
 
 }
 
+.brand-text{
+    color: $main-bg-color;
+}
+
+.services .icon{
+        color: $main-bg-color;
+        font-size: 1.7rem;
+        padding-right: .3rem;
+    }
 
 .messageContainer {
     min-height: 450px;
