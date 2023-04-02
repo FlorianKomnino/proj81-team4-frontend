@@ -1,6 +1,7 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue';
 import HeaderComponent from './components/HeaderComponent.vue'
+import FooterComponent from './components/FooterComponent.vue'
 
 export default {
   name: "App",
@@ -8,6 +9,7 @@ export default {
   components: {
     HelloWorld,
     HeaderComponent,
+    FooterComponent,
   }
 }
 
@@ -17,16 +19,20 @@ export default {
   <header>
     <HeaderComponent />
   </header>
-  
+
   <main>
     <router-view></router-view>
   </main>
+
+  <footer>
+    <FooterComponent />
+  </footer>
 </template>
 
 <style lang="scss">
 @use "./styles/general.scss" as *;
 
-header{
+header {
   position: fixed;
   top: 0;
   left: 0;
@@ -36,20 +42,19 @@ header{
   background-color: white;
   border-bottom: 1px solid $main-bg-color;
 
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;}
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
 
-main{
+main {
   margin-top: 95px;
   position: relative;
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
 
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+  .logo.vue:hover {
+    filter: drop-shadow(0 0 2em #42b883aa);
+  }
 }
-}
-
-
 </style>
