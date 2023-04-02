@@ -42,8 +42,8 @@ export default {
                                     </em>
                                 </a>
                             </p>
-                            <span><strong>StackOverflow ;</strong></span>
-                            <p><a href="https://stackoverflow.com/https://stackoverflow.com/"><em>Vai al sito</em></a></p>
+                            <span><strong>StackOverflow ;)</strong></span>
+                            <p><a href="https://stackoverflow.com"><em>Vai al sito</em></a></p>
                             <span><strong>TomTom API</strong></span>
                             <p><a href="https://developer.tomtom.com/"><em>Vai alla documentazione</em></a></p>
                             <span><strong>Braintree Payments</strong></span>
